@@ -17,7 +17,7 @@ namespace Tuupola\Base85;
 
 use Tuupola\Base85;
 
-class Encoder
+class Transcoder
 {
     public function encode($data)
     {

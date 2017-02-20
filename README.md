@@ -28,7 +28,7 @@ $decoded = Base85::decode($encoded);
 Or if you prefer to use object syntax.
 
 ``` php
-use Tuupola\Base85\Encoder as Base85;
+use Tuupola\Base85\Transcoder as Base85;
 
 $base85 = new Base85;
 

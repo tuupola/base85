@@ -41,7 +41,7 @@ class Base85Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals($data, $decoded2);
         //$this->assertEquals($data, $decoded3);
 
-        $base85 = new Encoder;
+        $base85 = new Transcoder;
         $encoded4 = $base85->encode($data);
         $decoded4 = $base85->decode($encoded4);
         $this->assertEquals($data, $decoded4);
@@ -64,7 +64,7 @@ class Base85Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals($data, $decoded2);
         //$this->assertEquals($data, $decoded3);
 
-        $base85 = new Encoder;
+        $base85 = new Transcoder;
         $encoded4 = $base85->encode($data);
         $decoded4 = $base85->decode($encoded4, true);
         $this->assertEquals($data, $decoded4);
@@ -86,7 +86,7 @@ class Base85Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals($data, $decoded2);
         //$this->assertEquals($data, $decoded3);
 
-        $base85 = new Encoder;
+        $base85 = new Transcoder;
         $encoded4 = $base85->encode($data);
         $decoded4 = $base85->decode($encoded4);
         $this->assertEquals($data, $decoded4);
