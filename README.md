@@ -48,6 +48,19 @@ Also note that encoding a string and an integer will yield different results.
 ``` php
 $integer = Base85::encode(987654321); /* 3o4PT */
 $string = Base85::encode("987654321"); /* 3B/rU2)I*E0` */
+```
+
+If you are using UUID:s they can be shortened.
+
+``` php
+use Ramsey\Uuid\Uuid;
+use Tuupola\Base85;
+
+$uuid = Uuid::fromString("d84560c8-134f-11e6-a1e2-34363bd26dae");
+Base85::encode($uuid->getBytes()); /* fL92h'2K5&U#Ime447uK */
+$uuid = Uuid::fromBytes(Base85::decode("fL92h'2K5&U#Ime447uK"));
+print $uuid; /* d84560c8-134f-11e6-a1e2-34363bd26dae */
+```
 
 ## Testing
 
