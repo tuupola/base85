@@ -111,6 +111,9 @@ class GmpEncoder
             $converted[$last] = substr($converted[$last], 0, 4 - $padding);
         }
 
+        if ($integer) {
+            return array_values(unpack("N", implode($converted)))[0];
+        }
         return implode($converted);
     }
 }
