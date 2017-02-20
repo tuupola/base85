@@ -36,6 +36,19 @@ $encoded = $base85->encode(random_bytes(128));
 $decoded = $base85->decode($encoded);
 ```
 
+Note that if you are encoding to and from integer you need to pass boolean `true` as the second argument for `decode()` method. This is because `decode()` method does not know if the original data was an integer or binary data.
+
+``` php
+$integer = Base85::encode(987654321); /* 3o4PT */
+print Base85::decode("3o4PT", true); /* 987654321 */
+```
+
+Also note that encoding a string and an integer will yield different results.
+
+``` php
+$integer = Base85::encode(987654321); /* 3o4PT */
+$string = Base85::encode("987654321"); /* 3B/rU2)I*E0` */
+
 ## Testing
 
 You can run tests either manually...
