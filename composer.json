@@ -2,7 +2,7 @@
     "name": "tuupola/base85",
     "description": "Base85 encoder and decoder for arbitrary data",
     "keywords": [
-        "base62"
+        "base85"
     ],
     "homepage": "https://github.com/tuupola/base85",
     "license": "MIT",
