@@ -78,32 +78,30 @@ class GmpEncoder
             $converted[$last] = substr($converted[$last], 0, 5 - $padding);
         }
 
-        /* Apply z exception to block before returning the Base85 string. */
         return implode($converted);
     }
 
     public static function decode($data, $integer = false)
     {
+        /* Uncompress all zero and four spaces exceptions. */
+        $data = str_replace("z", "!!!!!", $data);
+        $data = str_replace("y", "+<VdL", $data);
+
         $padding = 0;
         if ($modulus = strlen($data) % 5) {
             $padding = 5 - $modulus;
             $data .= str_repeat("u", $padding);
         }
 
-        $data = str_replace("z", "!!!!!", $data);
-        $data = str_replace("y", "+<VdL", $data);
-
+        /* From group of five base85 characters convert back to uint32. */
         $digits =  str_split($data, 5);
-        $converted = [];
-
-        foreach ($digits as $key => $value) {
+        $converted = array_map(function ($value) {
             $accumulator = 0;
-            foreach (unpack("C*", $value) as $item) {
-                $accumulator *= 85;
-                $accumulator += $item - 33;
+            foreach (unpack("C*", $value) as $char) {
+                $accumulator = $accumulator * 85 + $char - 33;
             }
-            $converted[] = pack("N", $accumulator);
-        }
+            return pack("N", $accumulator);
+        }, $digits);
 
         /* Remove any padding from the returned result. */
         $last = count($converted) - 1;

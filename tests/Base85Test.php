@@ -92,6 +92,46 @@ class Base85Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals($data, $decoded4);
     }
 
+    public function testShouldHandleFourSpacesException()
+    {
+        $this->assertEquals(PhpEncoder::encode("    "), "y");
+        $this->assertEquals(GmpEncoder::encode("    "), "y");
+        $this->assertEquals(PhpEncoder::decode("y"), "    ");
+        $this->assertEquals(GmpEncoder::decode("y"), "    ");
+
+        $encoded = PhpEncoder::encode("Hiya    world!");
+        $encoded2 = GmpEncoder::encode("Hiya    world!");
+        $this->assertEquals($encoded, $encoded2);
+        $this->assertEquals(PhpEncoder::decode($encoded), "Hiya    world!");
+        $this->assertEquals(GmpEncoder::decode($encoded2), "Hiya    world!");
+    }
+
+    public function testShouldHandleAllZeroDataException()
+    {
+
+        $this->assertEquals(PhpEncoder::encode("\0\0"), "!!!");
+        $this->assertEquals(GmpEncoder::encode("\0\0"), "!!!");
+        $this->assertEquals(PhpEncoder::decode("!!!"), "\0\0");
+        $this->assertEquals(GmpEncoder::decode("!!!"), "\0\0");
+        $this->assertEquals(PhpEncoder::encode("\0\0\0\0"), "!!!!!");
+        $this->assertEquals(GmpEncoder::encode("\0\0\0\0"), "!!!!!");
+        $this->assertEquals(PhpEncoder::decode("!!!!!"), "\0\0\0\0");
+        $this->assertEquals(GmpEncoder::decode("!!!!!"), "\0\0\0\0");
+
+
+        $this->assertEquals(PhpEncoder::encode("aaaa\0\0\0\0"), "@:<SQ!!!!!");
+        $this->assertEquals(GmpEncoder::encode("aaaa\0\0\0\0"), "@:<SQ!!!!!");
+        $this->assertEquals(PhpEncoder::encode("\0\0\0\0aaaa"), "z@:<SQ");
+        $this->assertEquals(GmpEncoder::encode("\0\0\0\0aaaa"), "z@:<SQ");
+        $this->assertEquals(PhpEncoder::decode("@:<SQ!!!!!"), "aaaa\0\0\0\0");
+        $this->assertEquals(GmpEncoder::decode("@:<SQ!!!!!"), "aaaa\0\0\0\0");
+        $this->assertEquals(PhpEncoder::encode("aaaa\0\0\0\0bb"), "@:<SQz@U]");
+        $this->assertEquals(GmpEncoder::encode("aaaa\0\0\0\0bb"), "@:<SQz@U]");
+
+        $this->assertEquals(PhpEncoder::decode("@:<SQz@U]"), "aaaa\0\0\0\0bb");
+        $this->assertEquals(GmpEncoder::decode("@:<SQz@U]"), "aaaa\0\0\0\0bb");
+    }
+
     public function testShouldAutoSelectEncoder()
     {
         $data = random_bytes(128);

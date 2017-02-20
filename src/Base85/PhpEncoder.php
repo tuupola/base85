@@ -68,23 +68,20 @@ class PhpEncoder
             $converted[$last] = substr($converted[$last], 0, 5 - $padding);
         }
 
-        /* Apply z exception to block before returning the Base85 string. */
-        return implode("", array_map(function ($value) {
-            return str_replace("!!!!!", "z", $value);
-        }, $converted));
+        return implode($converted);
     }
 
     public static function decode($data, $integer = false)
     {
-        $padding = 0;
-        if ($modulus = strlen($data) % 5) {
-            $padding = 5 - $modulus;
-            $data .= str_repeat("~", $padding);
-        }
-
         /* Uncompress all zero and four spaces exceptions. */
         $data = str_replace("z", "!!!!!", $data);
         $data = str_replace("y", "+<VdL", $data);
+
+        $padding = 0;
+        if ($modulus = strlen($data) % 5) {
+            $padding = 5 - $modulus;
+            $data .= str_repeat("u", $padding);
+        }
 
         /* From group of five base85 characters convert back to uint32. */
         $digits =  str_split($data, 5);
