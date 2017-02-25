@@ -19,18 +19,7 @@ $ composer require tuupola/base85
 This package has both pure PHP and [GMP](http://php.net/manual/en/ref.gmp.php) based encoders. By default encoder and decoder will use GMP functions if the extension is installed. If GMP is not available pure PHP encoder will be used instead.
 
 ``` php
-use Tuupola\Base85;
-
-$encoded = Base85::encode(random_bytes(128));
-$decoded = Base85::decode($encoded);
-```
-
-Or if you prefer to use object syntax.
-
-``` php
-use Tuupola\Base85\Transcoder as Base85;
-
-$base85 = new Base85;
+$base85 = new Tuupola\Base85;
 
 $encoded = $base85->encode(random_bytes(128));
 $decoded = $base85->decode($encoded);
@@ -39,15 +28,15 @@ $decoded = $base85->decode($encoded);
 Note that if you are encoding to and from integer you need to pass boolean `true` as the second argument for `decode()` method. This is because `decode()` method does not know if the original data was an integer or binary data.
 
 ``` php
-$integer = Base85::encode(987654321); /* 3o4PT */
-print Base85::decode("3o4PT", true); /* 987654321 */
+$integer = $base85->encode(987654321); /* 3o4PT */
+print $base85->decode("3o4PT", true); /* 987654321 */
 ```
 
 Also note that encoding a string and an integer will yield different results.
 
 ``` php
-$integer = Base85::encode(987654321); /* 3o4PT */
-$string = Base85::encode("987654321"); /* 3B/rU2)I*E0` */
+$integer = $base85->encode(987654321); /* 3o4PT */
+$string = $base85->encode("987654321"); /* 3B/rU2)I*E0` */
 ```
 
 If you are using UUID:s they can be shortened.
@@ -56,9 +45,11 @@ If you are using UUID:s they can be shortened.
 use Ramsey\Uuid\Uuid;
 use Tuupola\Base85;
 
+$base85 = new Base85;
 $uuid = Uuid::fromString("d84560c8-134f-11e6-a1e2-34363bd26dae");
-Base85::encode($uuid->getBytes()); /* fL92h'2K5&U#Ime447uK */
-$uuid = Uuid::fromBytes(Base85::decode("fL92h'2K5&U#Ime447uK"));
+
+$base85->encode($uuid->getBytes()); /* fL92h'2K5&U#Ime447uK */
+$uuid = Uuid::fromBytes($base85->decode("fL92h'2K5&U#Ime447uK"));
 print $uuid; /* d84560c8-134f-11e6-a1e2-34363bd26dae */
 ```
 
