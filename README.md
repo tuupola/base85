@@ -39,6 +39,52 @@ $integer = $base85->encode(987654321); /* 3o4PT */
 $string = $base85->encode("987654321"); /* 3B/rU2)I*E0` */
 ```
 
+## Encoding modes
+
+[ASCII85](https://en.wikipedia.org/wiki/Ascii85) encoding. This is the default. `0x00000000` is compressed to `z`. Spaces are not compressed.
+
+``` php
+use Tuupola\Base85;
+
+$ascii85 = new Base85([
+    "characters" => Base85::ASCII85,
+    "compress.spaces" => false,
+    "compress.zeroes" => true
+]);
+
+print $ascii85->encode("Hello world!"); /* 87cURD]j7BEbo80 */
+```
+
+[ZeroMQ (Z85)](https://rfc.zeromq.org/spec:32/Z85/) encoding. NOTE! Even though specification says input length must be divisible by 4, this is not currently enforced. Spaces and zeroes are not compressed.
+
+``` php
+use Tuupola\Base85;
+
+$z85 = new Base85([
+    "characters" => Base85::Z85,
+    "compress.spaces" => false,
+    "compress.zeroes" => false
+]);
+
+print $z85->encode("Hello world!"); /* NM=qnZy<MXa+]NF */
+```
+
+Character set from [RFC1924](https://tools.ietf.org/html/rfc1924) which is an April fools joke. Spaces and zeroes are not compressed.
+
+``` php
+use Tuupola\Base85;
+
+$rfc1924 = new Base85([
+    "characters" => Base85::RFC1924,
+    "compress.spaces" => false,
+    "compress.zeroes" => false
+]);
+
+print $rfc1924->encode("Hello world!"); /* NM&qnZy<MXa%^NF */
+```
+
+## Short UUID
+
 If you are using UUID:s they can be shortened.
 
 ``` php
