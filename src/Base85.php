@@ -15,21 +15,35 @@
 
 namespace Tuupola;
 
-class Base85
+final class Base85 extends Base85\BaseEncoder
 {
-    public static function encode($data)
+    /* Adobe ASCII85. Only all zero data exception, ignore whitespace. */
+    const ASCII85 = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstu";
+
+    /* https://rfc.zeromq.org/spec:32/Z85/ */
+    const Z85 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.-:+=^!/*?&<>()[]{}@%$#";
+
+    /* https://tools.ietf.org/html/rfc1924 which is an Aprils fools joke. */
+    const RFC1924 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&()*+-;<=>?@^_`{|}~";
+
+    private $encoder;
+
+    public function __construct($options = [])
     {
+        $this->options = array_merge($this->options, (array) $options);
         if (function_exists("gmp_init")) {
-            return Base85\GmpEncoder::encode($data);
+            $this->encoder = new Base85\GmpEncoder($this->options);
         }
-        return Base85\PhpEncoder::encode($data);
+        $this->encoder = new Base85\PhpEncoder($this->options);
     }
 
-    public static function decode($data, $integer = false)
+    public function encode($data)
     {
-        if (function_exists("gmp_init")) {
-            return Base85\GmpEncoder::decode($data, $integer);
-        }
-        return Base85\PhpEncoder::decode($data, $integer);
+        return $this->encoder->encode($data);
+    }
+
+    public function decode($data, $integer = false)
+    {
+        return $this->encoder->decode($data, $integer);
     }
 }

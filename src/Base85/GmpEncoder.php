@@ -15,11 +15,9 @@
 
 namespace Tuupola\Base85;
 
-class GmpEncoder
+final class GmpEncoder extends BaseEncoder
 {
-    public static $characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&()*+-;<=>?@^_`{|}~";
-
-    public static function encode($data)
+    public function encode($data)
     {
         $powers = [
             gmp_init("52200625", 10),
@@ -42,15 +40,19 @@ class GmpEncoder
         $converted = [];
         foreach (unpack("N*", $data) as $uint32) {
             /* Four spaces exception. */
-            if (0x20202020 === $uint32) {
-                $converted[] = "y";
-                continue;
+            if ($this->options["compress.spaces"]) {
+                if (0x20202020 === $uint32) {
+                    $converted[] = "y";
+                    continue;
+                }
             }
 
             /* All zero data exception. */
-            if (0x00000000 === $uint32) {
-                $converted[] = "z";
-                continue;
+            if ($this->options["compress.zeroes"]) {
+                if (0x00000000 === $uint32) {
+                    $converted[] = "z";
+                    continue;
+                }
             }
 
             $digits = "";
@@ -69,7 +71,7 @@ class GmpEncoder
         $last = count($converted) - 1;
 
         /* The z exception does not apply to the last block. */
-        if ("z" === $converted[$last]) {
+        if ($this->options["compress.zeroes"] && "z" === $converted[$last]) {
             $converted[$last] = "!!!!!";
         }
 
@@ -78,40 +80,6 @@ class GmpEncoder
             $converted[$last] = substr($converted[$last], 0, 5 - $padding);
         }
 
-        return implode($converted);
-    }
-
-    public static function decode($data, $integer = false)
-    {
-        /* Uncompress all zero and four spaces exceptions. */
-        $data = str_replace("z", "!!!!!", $data);
-        $data = str_replace("y", "+<VdL", $data);
-
-        $padding = 0;
-        if ($modulus = strlen($data) % 5) {
-            $padding = 5 - $modulus;
-            $data .= str_repeat("u", $padding);
-        }
-
-        /* From group of five base85 characters convert back to uint32. */
-        $digits =  str_split($data, 5);
-        $converted = array_map(function ($value) {
-            $accumulator = 0;
-            foreach (unpack("C*", $value) as $char) {
-                $accumulator = $accumulator * 85 + $char - 33;
-            }
-            return pack("N", $accumulator);
-        }, $digits);
-
-        /* Remove any padding from the returned result. */
-        $last = count($converted) - 1;
-        if ($padding) {
-            $converted[$last] = substr($converted[$last], 0, 4 - $padding);
-        }
-
-        if ($integer) {
-            return array_values(unpack("N", implode($converted)))[0];
-        }
         return implode($converted);
     }
 }
