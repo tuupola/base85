@@ -61,7 +61,7 @@ final class GmpEncoder extends BaseEncoder
             foreach ($powers as $pow) {
                 list($quotient, $reminder) = gmp_div_qr($quotient, $pow);
                 $quotient = gmp_intval($quotient);
-                $digits .= chr($quotient + 33);
+                $digits .= $this->options["characters"][$quotient];
                 $quotient = $reminder;
             }
 
