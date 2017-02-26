@@ -30,19 +30,14 @@ class Base85Test extends \PHPUnit_Framework_TestCase
         $data = random_bytes(128);
         $encoded = (new PhpEncoder)->encode($data);
         $encoded2 = (new GmpEncoder)->encode($data);
-        $encoded3 = (new BcmathEncoder)->encode($data);
         $decoded = (new PhpEncoder)->decode($encoded);
         $decoded2 = (new GmpEncoder)->decode($encoded2);
-        $decoded3 = (new BcmathEncoder)->decode($encoded3);
 
         $this->assertEquals($encoded, $encoded2);
-        $this->assertEquals($encoded, $encoded3);
 
         $this->assertEquals($decoded2, $decoded);
-        $this->assertEquals($decoded3, $decoded);
         $this->assertEquals($data, $decoded);
         $this->assertEquals($data, $decoded2);
-        //$this->assertEquals($data, $decoded3);
 
         $base85 = new Base85;
         $encoded4 = $base85->encode($data);
@@ -56,16 +51,12 @@ class Base85Test extends \PHPUnit_Framework_TestCase
 
         $encoded = (new PhpEncoder)->encode($data);
         $encoded2 = (new GmpEncoder)->encode($data);
-        //$encoded3 = BcmathEncoder::encode($data);
         $decoded = (new PhpEncoder)->decode($encoded, true);
         $decoded2 = (new GmpEncoder)->decode($encoded2, true);
-        //$decoded3 = BcmathEncoder::decode($encoded2, true);
 
         $this->assertEquals($decoded2, $decoded);
-        //$this->assertEquals($decoded3, $decoded);
         $this->assertEquals($data, $decoded);
         $this->assertEquals($data, $decoded2);
-        //$this->assertEquals($data, $decoded3);
 
         $base85 = new Base85;
         $encoded4 = $base85->encode($data);
@@ -78,22 +69,17 @@ class Base85Test extends \PHPUnit_Framework_TestCase
         $data = hex2bin("07d8e31da269bf28");
         $encoded = (new PhpEncoder)->encode($data);
         $encoded2 = (new GmpEncoder)->encode($data);
-        //$encoded3 = BcmathEncoder::encode($data);
         $decoded = (new PhpEncoder)->decode($encoded);
         $decoded2 = (new GmpEncoder)->decode($encoded2);
-        //$decoded3 = BcmathEncoder::decode($encoded3);
 
         $this->assertEquals($decoded2, $decoded);
-        //$this->assertEquals($decoded3, $decoded);
         $this->assertEquals($data, $decoded);
         $this->assertEquals($data, $decoded2);
-        //$this->assertEquals($data, $decoded3);
-        /*
-        $base85 = new Transcoder;
+
+        $base85 = new Base85;
         $encoded4 = $base85->encode($data);
         $decoded4 = $base85->decode($encoded4);
         $this->assertEquals($data, $decoded4);
-        */
     }
 
     public function testShouldHandleFourSpacesException()
