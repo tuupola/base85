@@ -55,6 +55,22 @@ $ascii85 = new Base85([
 print $ascii85->encode("Hello world!"); /* 87cURD]j7BEbo80 */
 ```
 
+[Adobe ASCII85](https://en.wikipedia.org/wiki/Ascii85) encoding is same as previous except data is enclosed between `<~` and `~>`.
+
+``` php
+use Tuupola\Base85;
+
+$adobe85 = new Base85([
+    "characters" => Base85::ASCII85,
+    "compress.spaces" => false,
+    "compress.zeroes" => true,
+    "prefix" => "<~",
+    "suffix" => "~>"
+]);
+
+print $adobe85->encode("Hello world!"); /* <~87cURD]j7BEbo80~> */
+```
+
 [ZeroMQ (Z85)](https://rfc.zeromq.org/spec:32/Z85/) encoding. NOTE! Even though specification says input length must be divisible by 4, this is not currently enforced. Spaces and zeroes are not compressed.
 
 ``` php

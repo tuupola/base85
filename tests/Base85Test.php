@@ -122,6 +122,35 @@ class Base85Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals((new GmpEncoder)->decode("@:<SQz@U]"), "aaaa\0\0\0\0bb");
     }
 
+    public function testShouldHandleAdobeAscii85Mode()
+    {
+        $phpAdobe85 = new PhpEncoder([
+            "characters" => Base85::ASCII85,
+            "compress.spaces" => false,
+            "compress.zeroes" => true,
+            "prefix" => "<~",
+            "suffix" => "~>"
+        ]);
+
+        $gmpAdobe85 = new GmpEncoder([
+            "characters" => Base85::ASCII85,
+            "compress.spaces" => false,
+            "compress.zeroes" => true,
+            "prefix" => "<~",
+            "suffix" => "~>"
+        ]);
+
+        $encoded = $phpAdobe85->encode("Not sure.");
+        $encoded2 = $gmpAdobe85->encode("Not sure.");
+
+        $this->assertEquals($encoded, "<~:2b4sF*2M7/c~>");
+        $this->assertEquals($encoded, $encoded2);
+
+        $data = "randomjunk<~:2b4sF*2M7/c~>randomjunk";
+        $this->assertEquals($phpAdobe85->decode($data), "Not sure.");
+        $this->assertEquals($phpAdobe85->decode($data), "Not sure.");
+    }
+
     public function testShouldAutoSelectEncoder()
     {
         $data = random_bytes(128);

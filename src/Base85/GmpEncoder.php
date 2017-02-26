@@ -37,7 +37,7 @@ final class GmpEncoder extends BaseEncoder
             $data .= str_repeat("\0", $padding);
         }
 
-        $converted = [];
+        $converted = [$this->options["prefix"]];
         foreach (unpack("N*", $data) as $uint32) {
             /* Four spaces exception. */
             if ($this->options["compress.spaces"]) {
@@ -79,6 +79,8 @@ final class GmpEncoder extends BaseEncoder
         if ($padding) {
             $converted[$last] = substr($converted[$last], 0, 5 - $padding);
         }
+
+        $converted[] = $this->options["suffix"];
 
         return implode($converted);
     }

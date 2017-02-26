@@ -23,6 +23,8 @@ abstract class BaseEncoder
         "characters" => Base85::ASCII85,
         "compress.spaces" => false,
         "compress.zeroes" => true,
+        "prefix" => null,
+        "suffix" => null,
     ];
 
     public function __construct($options = [])
@@ -34,6 +36,14 @@ abstract class BaseEncoder
 
     public function decode($data, $integer = false)
     {
+        /* Extract data between prefix and suffix. */
+        if ($this->options["prefix"] && $this->options["suffix"]) {
+            $prefix = preg_quote($this->options["prefix"]);
+            $suffix = preg_quote($this->options["suffix"]);
+            preg_match("/$prefix(.*)$suffix/", $data, $matches);
+            $data = $matches[1];
+        }
+
         if ($this->options["compress.zeroes"]) {
             $data = str_replace("z", "!!!!!", $data);
         }
