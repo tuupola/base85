@@ -18,6 +18,7 @@ namespace Tuupola;
 final class Base85 extends Base85\BaseEncoder
 {
     /* Adobe ASCII85. Only all zero data exception, ignore whitespace. */
+    /* https://www.adobe.com/products/postscript/pdfs/PLRM.pdf */
     const ASCII85 = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstu";
 
     /* https://rfc.zeromq.org/spec:32/Z85/ */

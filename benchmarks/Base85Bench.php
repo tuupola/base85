@@ -18,6 +18,10 @@ use Tuupola\Base85\GmpEncoder;
 
 /**
  * @BeforeMethods({"init"})
+ * @Iterations(5)
+ * @Warmup(2)
+ * @OutputTimeUnit("seconds")
+ * @OutputMode("throughput")
  */
 
 class Base85Bench
@@ -32,7 +36,7 @@ class Base85Bench
     }
 
     /**
-     * @Revs(10)
+     * @Revs(1000)
      */
     public function benchGmpEncoder()
     {
@@ -41,7 +45,7 @@ class Base85Bench
     }
 
     /**
-     * @Revs(10)
+     * @Revs(1000)
      */
     public function benchPhpEncoder()
     {

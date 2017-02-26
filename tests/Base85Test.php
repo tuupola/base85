@@ -30,16 +30,16 @@ class Base85Test extends \PHPUnit_Framework_TestCase
         $data = random_bytes(128);
         $encoded = (new PhpEncoder)->encode($data);
         $encoded2 = (new GmpEncoder)->encode($data);
-        //$encoded3 = BcmathEncoder::encode($data);
+        $encoded3 = (new BcmathEncoder)->encode($data);
         $decoded = (new PhpEncoder)->decode($encoded);
         $decoded2 = (new GmpEncoder)->decode($encoded2);
-        //$decoded3 = BcmathEncoder::decode($encoded3);
+        $decoded3 = (new BcmathEncoder)->decode($encoded3);
 
         $this->assertEquals($encoded, $encoded2);
-        //$this->assertEquals($encoded, $encoded3);
+        $this->assertEquals($encoded, $encoded3);
 
         $this->assertEquals($decoded2, $decoded);
-        //$this->assertEquals($decoded3, $decoded);
+        $this->assertEquals($decoded3, $decoded);
         $this->assertEquals($data, $decoded);
         $this->assertEquals($data, $decoded2);
         //$this->assertEquals($data, $decoded3);
