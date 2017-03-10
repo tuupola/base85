@@ -16,6 +16,7 @@
 namespace Tuupola\Base85;
 
 use Tuupola\Base85;
+use Tuupola\Base85Proxy;
 
 class Base85Test extends \PHPUnit_Framework_TestCase
 {
@@ -34,10 +35,15 @@ class Base85Test extends \PHPUnit_Framework_TestCase
         $decoded2 = (new GmpEncoder)->decode($encoded2);
 
         $this->assertEquals($encoded, $encoded2);
-
         $this->assertEquals($decoded2, $decoded);
         $this->assertEquals($data, $decoded);
         $this->assertEquals($data, $decoded2);
+
+        $encoded3 = Base85Proxy::encode($data);
+        $decoded3 = Base85Proxy::decode($encoded3);
+        $this->assertEquals($encoded, $encoded3);
+        $this->assertEquals($data, $decoded3);
+
 
         $base85 = new Base85;
         $encoded4 = $base85->encode($data);
@@ -58,6 +64,11 @@ class Base85Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals($data, $decoded);
         $this->assertEquals($data, $decoded2);
 
+        $encoded3 = Base85Proxy::encode($data);
+        $decoded3 = Base85Proxy::decode($encoded3, true);
+        $this->assertEquals($encoded, $encoded3);
+        $this->assertEquals($data, $decoded3);
+
         $base85 = new Base85;
         $encoded4 = $base85->encode($data);
         $decoded4 = $base85->decode($encoded4, true);
@@ -75,6 +86,11 @@ class Base85Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals($decoded2, $decoded);
         $this->assertEquals($data, $decoded);
         $this->assertEquals($data, $decoded2);
+
+        $encoded3 = Base85Proxy::encode($data);
+        $decoded3 = Base85Proxy::decode($encoded3);
+        $this->assertEquals($encoded, $encoded3);
+        $this->assertEquals($data, $decoded3);
 
         $base85 = new Base85;
         $encoded4 = $base85->encode($data);
@@ -124,31 +140,31 @@ class Base85Test extends \PHPUnit_Framework_TestCase
 
     public function testShouldHandleAdobeAscii85Mode()
     {
-        $phpAdobe85 = new PhpEncoder([
+        $options = [
             "characters" => Base85::ASCII85,
             "compress.spaces" => false,
             "compress.zeroes" => true,
             "prefix" => "<~",
             "suffix" => "~>"
-        ]);
+        ];
 
-        $gmpAdobe85 = new GmpEncoder([
-            "characters" => Base85::ASCII85,
-            "compress.spaces" => false,
-            "compress.zeroes" => true,
-            "prefix" => "<~",
-            "suffix" => "~>"
-        ]);
+        Base85Proxy::$options = $options;
+
+        $phpAdobe85 = new PhpEncoder($options);
+        $gmpAdobe85 = new GmpEncoder($options);
 
         $encoded = $phpAdobe85->encode("Not sure.");
         $encoded2 = $gmpAdobe85->encode("Not sure.");
+        $encoded3 = Base85Proxy::encode("Not sure.", $options);
 
         $this->assertEquals($encoded, "<~:2b4sF*2M7/c~>");
         $this->assertEquals($encoded, $encoded2);
+        $this->assertEquals($encoded, $encoded3);
 
         $data = "randomjunk<~:2b4sF*2M7/c~>randomjunk";
         $this->assertEquals($phpAdobe85->decode($data), "Not sure.");
         $this->assertEquals($phpAdobe85->decode($data), "Not sure.");
+        $this->assertEquals(Base85Proxy::decode($data, false), "Not sure.");
     }
 
     public function testShouldAutoSelectEncoder()

@@ -99,6 +99,30 @@ $rfc1924 = new Base85([
 print $rfc1924->encode("Hello world!"); /* NM&qnZy<MXa%^NF */
 ```
 
+## Static Proxy
+
+If you prefer static syntax use the provided static proxy.
+
+```php
+use Tuupola\Base85Proxy as Base85;
+
+print Base85::encode("Hello world!") /* 87cURD]j7BEbo80 */
+```
+
+To change static proxy options set the `Base85::$options` variable.
+
+```php
+use Tuupola\Base85Proxy as Base85;
+
+Base85::$options = [
+    "characters" => Tuupola\Base85::Z85,
+    "compress.spaces" => false,
+    "compress.zeroes" => false
+];
+
+print Base85::encode("Hello world!"); /* NM=qnZy<MXa+]NF */
+```
+
 ## Short UUID
 
 If you are using UUID:s they can be shortened.
