@@ -112,15 +112,16 @@ print Base85::encode("Hello world!") /* 87cURD]j7BEbo80 */
 To change static proxy options set the `Base85::$options` variable.
 
 ```php
-use Tuupola\Base85Proxy as Base85;
+use Tuupola\Base85;
+use Tuupola\Base85Proxy as Z85;
 
-Base85::$options = [
-    "characters" => Tuupola\Base85::Z85,
+Z85::$options = [
+    "characters" => Base85::Z85,
     "compress.spaces" => false,
     "compress.zeroes" => false
 ];
 
-print Base85::encode("Hello world!"); /* NM=qnZy<MXa+]NF */
+print Z85::encode("Hello world!"); /* NM=qnZy<MXa+]NF */
 ```
 
 ## Short UUID
