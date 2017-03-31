@@ -15,7 +15,7 @@
 
 namespace Tuupola;
 
-final class Base85 extends Base85\BaseEncoder
+final class Base85
 {
     /* Adobe ASCII85. Only all zero data exception, ignore whitespace. */
     /* https://www.adobe.com/products/postscript/pdfs/PLRM.pdf */
@@ -27,6 +27,7 @@ final class Base85 extends Base85\BaseEncoder
     /* https://tools.ietf.org/html/rfc1924 which is an Aprils fools joke. */
     const RFC1924 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&()*+-;<=>?@^_`{|}~";
 
+    private $options = [];
     private $encoder;
 
     public function __construct($options = [])

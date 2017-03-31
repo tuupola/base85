@@ -15,7 +15,7 @@
 
 namespace Tuupola\Base85;
 
-final class PhpEncoder extends BaseEncoder
+class PhpEncoder extends BaseEncoder
 {
     public function encode($data)
     {

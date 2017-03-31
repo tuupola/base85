@@ -15,7 +15,7 @@
 
 namespace Tuupola\Base85;
 
-final class GmpEncoder extends BaseEncoder
+class GmpEncoder extends BaseEncoder
 {
     public function encode($data)
     {

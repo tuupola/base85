@@ -17,15 +17,9 @@ namespace Tuupola;
 
 use Tuupola\Base85;
 
-final class Base85Proxy
+class Base85Proxy
 {
-    public static $options = [
-        "characters" => Base85::ASCII85,
-        "compress.spaces" => false,
-        "compress.zeroes" => true,
-        "prefix" => null,
-        "suffix" => null,
-    ];
+    public static $options = [];
 
     public static function encode($data, $options = [])
     {
