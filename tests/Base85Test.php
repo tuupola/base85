@@ -160,7 +160,7 @@ class Base85Test extends \PHPUnit_Framework_TestCase
         $data = "randomjunk<~:2b4sF*2M7/c~>randomjunk";
         $this->assertEquals($phpAdobe85->decode($data), "Not sure.");
         $this->assertEquals($phpAdobe85->decode($data), "Not sure.");
-        $this->assertEquals(Base85Proxy::decode($data, false), "Not sure.");
+        $this->assertEquals(Base85Proxy::decode($data), "Not sure.");
     }
 
     public function testShouldAutoSelectEncoder()
