@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.3.1 - 2017-04-01
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Removed final keyword from classes.
+
+### Fixed
+
+- Nothing.
+
 ## 0.3.0 - 2017-02-28
 
 ### Added
