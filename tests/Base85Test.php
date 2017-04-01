@@ -30,13 +30,13 @@ class Base85Test extends \PHPUnit_Framework_TestCase
         $data = random_bytes(128);
 
         $encoded = (new PhpEncoder)->encode($data);
-        $decoded = (new PhpEncoder)->decode($encoded, true);
+        $decoded = (new PhpEncoder)->decode($encoded);
         $encoded2 = (new GmpEncoder)->encode($data);
-        $decoded2 = (new GmpEncoder)->decode($encoded2, true);
+        $decoded2 = (new GmpEncoder)->decode($encoded);
         $encoded3 = Base85Proxy::encode($data);
-        $decoded3 = Base85Proxy::decode($encoded3, true);
+        $decoded3 = Base85Proxy::decode($encoded3);
         $encoded4 = (new Base85)->encode($data);
-        $decoded4 = (new Base85)->decode($encoded4, true);
+        $decoded4 = (new Base85)->decode($encoded4);
 
         $this->assertEquals($encoded, $encoded2);
         $this->assertEquals($encoded, $encoded3);
@@ -76,13 +76,13 @@ class Base85Test extends \PHPUnit_Framework_TestCase
         $data = hex2bin("07d8e31da269bf28");
 
         $encoded = (new PhpEncoder)->encode($data);
-        $decoded = (new PhpEncoder)->decode($encoded, true);
+        $decoded = (new PhpEncoder)->decode($encoded);
         $encoded2 = (new GmpEncoder)->encode($data);
-        $decoded2 = (new GmpEncoder)->decode($encoded2, true);
+        $decoded2 = (new GmpEncoder)->decode($encoded2);
         $encoded3 = Base85Proxy::encode($data);
-        $decoded3 = Base85Proxy::decode($encoded3, true);
+        $decoded3 = Base85Proxy::decode($encoded3);
         $encoded4 = (new Base85)->encode($data);
-        $decoded4 = (new Base85)->decode($encoded4, true);
+        $decoded4 = (new Base85)->decode($encoded4);
 
         $this->assertEquals($encoded, $encoded2);
         $this->assertEquals($encoded, $encoded3);
