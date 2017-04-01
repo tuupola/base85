@@ -20,7 +20,6 @@ use Tuupola\Base85Proxy;
 
 class Base85Test extends \PHPUnit_Framework_TestCase
 {
-
     public function testShouldBeTrue()
     {
         $this->assertTrue(true);
@@ -29,25 +28,23 @@ class Base85Test extends \PHPUnit_Framework_TestCase
     public function testShouldEncodeAndDecodeRandomBytes()
     {
         $data = random_bytes(128);
+
         $encoded = (new PhpEncoder)->encode($data);
+        $decoded = (new PhpEncoder)->decode($encoded, true);
         $encoded2 = (new GmpEncoder)->encode($data);
-        $decoded = (new PhpEncoder)->decode($encoded);
-        $decoded2 = (new GmpEncoder)->decode($encoded2);
+        $decoded2 = (new GmpEncoder)->decode($encoded2, true);
+        $encoded3 = Base85Proxy::encode($data);
+        $decoded3 = Base85Proxy::decode($encoded3, true);
+        $encoded4 = (new Base85)->encode($data);
+        $decoded4 = (new Base85)->decode($encoded4, true);
 
         $this->assertEquals($encoded, $encoded2);
-        $this->assertEquals($decoded2, $decoded);
+        $this->assertEquals($encoded, $encoded3);
+        $this->assertEquals($encoded, $encoded4);
+
         $this->assertEquals($data, $decoded);
         $this->assertEquals($data, $decoded2);
-
-        $encoded3 = Base85Proxy::encode($data);
-        $decoded3 = Base85Proxy::decode($encoded3);
-        $this->assertEquals($encoded, $encoded3);
         $this->assertEquals($data, $decoded3);
-
-
-        $base85 = new Base85;
-        $encoded4 = $base85->encode($data);
-        $decoded4 = $base85->decode($encoded4);
         $this->assertEquals($data, $decoded4);
     }
 
@@ -56,45 +53,44 @@ class Base85Test extends \PHPUnit_Framework_TestCase
         $data = 4294967295;
 
         $encoded = (new PhpEncoder)->encode($data);
-        $encoded2 = (new GmpEncoder)->encode($data);
         $decoded = (new PhpEncoder)->decode($encoded, true);
+        $encoded2 = (new GmpEncoder)->encode($data);
         $decoded2 = (new GmpEncoder)->decode($encoded2, true);
-
-        $this->assertEquals($decoded2, $decoded);
-        $this->assertEquals($data, $decoded);
-        $this->assertEquals($data, $decoded2);
-
         $encoded3 = Base85Proxy::encode($data);
         $decoded3 = Base85Proxy::decode($encoded3, true);
-        $this->assertEquals($encoded, $encoded3);
-        $this->assertEquals($data, $decoded3);
+        $encoded4 = (new Base85)->encode($data);
+        $decoded4 = (new Base85)->decode($encoded4, true);
 
-        $base85 = new Base85;
-        $encoded4 = $base85->encode($data);
-        $decoded4 = $base85->decode($encoded4, true);
+        $this->assertEquals($encoded, $encoded2);
+        $this->assertEquals($encoded, $encoded3);
+        $this->assertEquals($encoded, $encoded4);
+
+        $this->assertEquals($data, $decoded);
+        $this->assertEquals($data, $decoded2);
+        $this->assertEquals($data, $decoded3);
         $this->assertEquals($data, $decoded4);
     }
 
     public function testShouldEncodeAndDecodeWithLeadingZero()
     {
         $data = hex2bin("07d8e31da269bf28");
-        $encoded = (new PhpEncoder)->encode($data);
-        $encoded2 = (new GmpEncoder)->encode($data);
-        $decoded = (new PhpEncoder)->decode($encoded);
-        $decoded2 = (new GmpEncoder)->decode($encoded2);
 
-        $this->assertEquals($decoded2, $decoded);
+        $encoded = (new PhpEncoder)->encode($data);
+        $decoded = (new PhpEncoder)->decode($encoded, true);
+        $encoded2 = (new GmpEncoder)->encode($data);
+        $decoded2 = (new GmpEncoder)->decode($encoded2, true);
+        $encoded3 = Base85Proxy::encode($data);
+        $decoded3 = Base85Proxy::decode($encoded3, true);
+        $encoded4 = (new Base85)->encode($data);
+        $decoded4 = (new Base85)->decode($encoded4, true);
+
+        $this->assertEquals($encoded, $encoded2);
+        $this->assertEquals($encoded, $encoded3);
+        $this->assertEquals($encoded, $encoded4);
+
         $this->assertEquals($data, $decoded);
         $this->assertEquals($data, $decoded2);
-
-        $encoded3 = Base85Proxy::encode($data);
-        $decoded3 = Base85Proxy::decode($encoded3);
-        $this->assertEquals($encoded, $encoded3);
         $this->assertEquals($data, $decoded3);
-
-        $base85 = new Base85;
-        $encoded4 = $base85->encode($data);
-        $decoded4 = $base85->decode($encoded4);
         $this->assertEquals($data, $decoded4);
     }
 
