@@ -33,13 +33,5 @@
         "paragonie/random_compat": "^2.0",
         "phpbench/phpbench": "^0.13.0",
         "overtrue/phplint": "^0.2.0"
-    },
-    "scripts": {
-        "test": "composer phplint && composer phpcs && composer phpunit",
-        "phpcs": "vendor/bin/phpcs --standard=PSR2 --extensions=php --encoding=utf-8 --ignore=*/tests/*,*/vendor/*,*/benchmarks/* . -p",
-        "phplint": "vendor/bin/phplint . --exclude=vendor/",
-        "phpunit": "vendor/bin/phpunit --coverage-text --coverage-html ./report/",
-        "phpbench": "vendor/bin/phpbench run benchmarks/ --report=default",
-        "watch": "find . -name \"*.php\" -not -path \"./vendor/*\" -o -name \"*.json\" -not -path \"./vendor/*\"| entr -c composer test"
     }
 }
