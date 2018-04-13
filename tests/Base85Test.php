@@ -17,8 +17,9 @@ namespace Tuupola\Base85;
 
 use Tuupola\Base85;
 use Tuupola\Base85Proxy;
+use PHPUnit\Framework\TestCase;
 
-class Base85Test extends \PHPUnit_Framework_TestCase
+class Base85Test extends TestCase
 {
     public function testShouldBeTrue()
     {
