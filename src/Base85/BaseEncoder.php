@@ -79,7 +79,7 @@ abstract class BaseEncoder
         $converted = array_map(function ($value) {
             $accumulator = 0;
             foreach (unpack("C*", $value) as $char) {
-                $accumulator = $accumulator * 85 + strpos($this->options["characters"], $char);
+                $accumulator = $accumulator * 85 + strpos($this->options["characters"], chr($char));
             }
             return pack("N", $accumulator);
         }, $digits);
