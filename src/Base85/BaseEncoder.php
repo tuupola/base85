@@ -48,7 +48,7 @@ abstract class BaseEncoder
         $this->options = array_merge($this->options, (array) $options);
     }
 
-    abstract public function encode($data);
+    abstract public function encode($data, $integer = false);
 
     public function decode($data, $integer = false)
     {
@@ -94,5 +94,20 @@ abstract class BaseEncoder
             return array_values(unpack("N", implode($converted)))[0];
         }
         return implode($converted);
+    }
+
+    /**
+     * Encode given integer to a base85 string
+     */
+    public function encodeInteger($data)
+    {
+        return $this->encode($data, true);
+    }
+    /**
+     * Decode given base85 string back to an integer
+     */
+    public function decodeInteger($data)
+    {
+        return $this->decode($data, true);
     }
 }
