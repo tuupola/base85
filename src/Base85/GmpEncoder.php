@@ -44,7 +44,11 @@ class GmpEncoder extends BaseEncoder
         ];
 
         if (is_integer($data) || true === $integer) {
-            $data = pack("N", $data);
+            if (8 === PHP_INT_SIZE) {
+                $data = pack("J", $data);
+            } else {
+                $data = pack("N", $data);
+            }
         };
 
         $padding = 0;

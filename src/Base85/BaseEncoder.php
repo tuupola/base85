@@ -91,7 +91,11 @@ abstract class BaseEncoder
         }
 
         if (true === $integer) {
-            return array_values(unpack("N", implode($converted)))[0];
+            if (8 === PHP_INT_SIZE) {
+                return array_values(unpack("J", implode($converted)))[0];
+            } else {
+                return array_values(unpack("N", implode($converted)))[0];
+            }
         }
         return implode($converted);
     }
