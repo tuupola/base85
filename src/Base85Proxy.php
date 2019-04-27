@@ -43,12 +43,12 @@ class Base85Proxy
         "suffix" => null,
     ];
 
-    public static function encode($data, $options = [])
+    public static function encode($data)
     {
         return (new Base85(self::$options))->encode($data);
     }
 
-    public static function decode($data, $integer = false, $options = [])
+    public static function decode($data, $integer = false)
     {
         return (new Base85(self::$options))->decode($data, $integer);
     }
