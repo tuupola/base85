@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## [0.4.0](https://github.com/tuupola/base85/compare/0.3.1...0.4.0) - unreleased
+## [0.4.0](https://github.com/tuupola/base85/compare/0.3.1...0.4.0) - 2019-04-27
 
 ### Added
 - Implicit `decodeInteger()` and `encodeInteger()` methods ([#3](https://github.com/tuupola/base85/pull/3/files)).
