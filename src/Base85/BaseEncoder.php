@@ -31,6 +31,7 @@ SOFTWARE.
 
 namespace Tuupola\Base85;
 
+use InvalidArgumentException;
 use Tuupola\Base85;
 
 abstract class BaseEncoder
@@ -46,6 +47,11 @@ abstract class BaseEncoder
     public function __construct($options = [])
     {
         $this->options = array_merge($this->options, (array) $options);
+
+        $uniques = count_chars($this->options["characters"], 3);
+        if (85 !== strlen($uniques) || 85 !== strlen($this->options["characters"])) {
+            throw new InvalidArgumentException("Character set must contain 85 unique characters");
+        }
     }
 
     abstract public function encode($data, $integer = false);
@@ -66,6 +72,16 @@ abstract class BaseEncoder
 
         if ($this->options["compress.spaces"]) {
             $data = str_replace("y", "+<VdL", $data);
+        }
+
+        /* If the data contains characters that aren't in the character set. */
+        if (strlen($data) !== strspn($data, $this->options["characters"])) {
+            $valid = str_split($this->options["characters"]);
+            $invalid = str_replace($valid, "", $data);
+            $invalid = count_chars($invalid, 3);
+            throw new InvalidArgumentException(
+                "Data contains invalid characters \"{$invalid}\""
+            );
         }
 
         $padding = 0;

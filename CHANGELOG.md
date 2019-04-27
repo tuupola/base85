@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 - Implicit `decodeInteger()` and `encodeInteger()` methods ([#3](https://github.com/tuupola/base85/pull/3/files)).
+- Character set validation for both configuration and data going to be encoded ([#5](https://github.com/tuupola/base85/pull/5/files)).
 
 ## [0.3.1](https://github.com/tuupola/base85/compare/0.3.0...0.3.1) - 2017-04-01
 
