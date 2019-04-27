@@ -306,33 +306,33 @@ class Base85Test extends TestCase
     //     }
     // }
 
-    // public function testShouldThrowExceptionOnDecodeInvalidDataWithCustomCharacterSet()
-    // {
-    //     /* This would normally be valid, however the custom character set */
-    //     /* is missing the e character. */
-    //     $invalid = "T8dgcjRGuYUueWht";
-    //     $options = [
-    //         "characters" => "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdxfghijklmnopqrstu"
-    //     ];
+    public function testShouldThrowExceptionOnDecodeInvalidDataWithCustomCharacterSet()
+    {
+        /* This would normally be valid, however the custom character set */
+        /* is missing the e character. */
+        $invalid = "T8dgcjRGuYUueWht";
+        $options = [
+            "characters" => "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdxfghijklmnopqrstu"
+        ];
 
-    //     $decoders = [
-    //         new PhpEncoder($options),
-    //         new GmpEncoder($options),
-    //         new Base85($options),
-    //     ];
+        $decoders = [
+            new PhpEncoder($options),
+            new GmpEncoder($options),
+            new Base85($options),
+        ];
 
-    //     foreach ($decoders as $decoder) {
-    //         $caught = null;
+        foreach ($decoders as $decoder) {
+            $caught = null;
 
-    //         try {
-    //             $decoder->decode($invalid, false);
-    //         } catch (InvalidArgumentException $exception) {
-    //             $caught = $exception;
-    //         }
+            try {
+                $decoder->decode($invalid, false);
+            } catch (InvalidArgumentException $exception) {
+                $caught = $exception;
+            }
 
-    //         $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-    //     }
-    // }
+            $this->assertInstanceOf(InvalidArgumentException::class, $caught);
+        }
+    }
 
     public function testShouldThrowExceptionWithInvalidCharacterSet()
     {

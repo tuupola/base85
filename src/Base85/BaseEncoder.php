@@ -74,6 +74,16 @@ abstract class BaseEncoder
             $data = str_replace("y", "+<VdL", $data);
         }
 
+        /* If the data contains characters that aren't in the character set. */
+        if (strlen($data) !== strspn($data, $this->options["characters"])) {
+            $valid = str_split($this->options["characters"]);
+            $invalid = str_replace($valid, "", $data);
+            $invalid = count_chars($invalid, 3);
+            throw new InvalidArgumentException(
+                "Data contains invalid characters \"{$invalid}\""
+            );
+        }
+
         $padding = 0;
         if ($modulus = strlen($data) % 5) {
             $padding = 5 - $modulus;
