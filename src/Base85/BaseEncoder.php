@@ -31,6 +31,7 @@ SOFTWARE.
 
 namespace Tuupola\Base85;
 
+use InvalidArgumentException;
 use Tuupola\Base85;
 
 abstract class BaseEncoder
@@ -46,6 +47,11 @@ abstract class BaseEncoder
     public function __construct($options = [])
     {
         $this->options = array_merge($this->options, (array) $options);
+
+        $uniques = count_chars($this->options["characters"], 3);
+        if (85 !== strlen($uniques) || 85 !== strlen($this->options["characters"])) {
+            throw new InvalidArgumentException("Character set must contain 85 unique characters");
+        }
     }
 
     abstract public function encode($data, $integer = false);

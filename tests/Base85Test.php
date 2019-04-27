@@ -309,10 +309,10 @@ class Base85Test extends TestCase
     // public function testShouldThrowExceptionOnDecodeInvalidDataWithCustomCharacterSet()
     // {
     //     /* This would normally be valid, however the custom character set */
-    //     /* is missing the T character. */
+    //     /* is missing the e character. */
     //     $invalid = "T8dgcjRGuYUueWht";
     //     $options = [
-    //         "characters" => "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRS-UVWXYZ"
+    //         "characters" => "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdxfghijklmnopqrstu"
     //     ];
 
     //     $decoders = [
@@ -334,47 +334,47 @@ class Base85Test extends TestCase
     //     }
     // }
 
-    // public function testShouldThrowExceptionWithInvalidCharacterSet()
-    // {
-    //     $options = [
-    //         "characters" => "0023456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-    //     ];
+    public function testShouldThrowExceptionWithInvalidCharacterSet()
+    {
+        $options = [
+            "characters" => "!!#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstu"
+        ];
 
-    //     $decoders = [
-    //         PhpEncoder::class,
-    //         GmpEncoder::class,
-    //         Base85::class,
-    //     ];
+        $decoders = [
+            PhpEncoder::class,
+            GmpEncoder::class,
+            Base85::class,
+        ];
 
-    //     foreach ($decoders as $decoder) {
-    //         $caught = null;
+        foreach ($decoders as $decoder) {
+            $caught = null;
 
-    //         try {
-    //             new $decoder($options);
-    //         } catch (InvalidArgumentException $exception) {
-    //             $caught = $exception;
-    //         }
+            try {
+                new $decoder($options);
+            } catch (InvalidArgumentException $exception) {
+                $caught = $exception;
+            }
 
-    //         $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-    //     }
+            $this->assertInstanceOf(InvalidArgumentException::class, $caught);
+        }
 
-    //     $options = [
-    //         "characters" => "00123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-    //     ];
+        $options = [
+            "characters" => "00123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+        ];
 
 
-    //     foreach ($decoders as $decoder) {
-    //         $caught = null;
+        foreach ($decoders as $decoder) {
+            $caught = null;
 
-    //         try {
-    //             new $decoder($options);
-    //         } catch (InvalidArgumentException $exception) {
-    //             $caught = $exception;
-    //         }
+            try {
+                new $decoder($options);
+            } catch (InvalidArgumentException $exception) {
+                $caught = $exception;
+            }
 
-    //         $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-    //     }
-    // }
+            $this->assertInstanceOf(InvalidArgumentException::class, $caught);
+        }
+    }
 
     /**
      * @dataProvider configurationProvider
