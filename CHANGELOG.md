@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.4.0 - unreleased
+
+### Added
+
+- Implicit `decodeInteger()` and `encodeInteger()` methods ([#3](https://github.com/tuupola/base85/pull/3/files)).
+
 ## 0.3.1 - 2017-04-01
 
 ### Added
