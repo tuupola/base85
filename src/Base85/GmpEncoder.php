@@ -33,7 +33,7 @@ namespace Tuupola\Base85;
 
 class GmpEncoder extends BaseEncoder
 {
-    public function encode($data)
+    public function encode($data, $integer = false)
     {
         $powers = [
             gmp_init("52200625", 10),
@@ -43,8 +43,12 @@ class GmpEncoder extends BaseEncoder
             gmp_init("1", 10),
         ];
 
-        if (is_integer($data)) {
-            $data = pack("N", $data);
+        if (is_integer($data) || true === $integer) {
+            if (8 === PHP_INT_SIZE) {
+                $data = pack("J", $data);
+            } else {
+                $data = pack("N", $data);
+            }
         };
 
         $padding = 0;

@@ -35,7 +35,13 @@ use Tuupola\Base85;
 
 class Base85Proxy
 {
-    public static $options = [];
+    public static $options = [
+        "characters" => Base85::ASCII85,
+        "compress.spaces" => false,
+        "compress.zeroes" => true,
+        "prefix" => null,
+        "suffix" => null,
+    ];
 
     public static function encode($data, $options = [])
     {
@@ -45,5 +51,21 @@ class Base85Proxy
     public static function decode($data, $integer = false, $options = [])
     {
         return (new Base85(self::$options))->decode($data, $integer);
+    }
+
+    /**
+     * Encode given integer to a base85 string
+     */
+    public static function encodeInteger($data)
+    {
+        return (new Base85(self::$options))->encodeInteger($data);
+    }
+
+    /**
+     * Decode given base85 string back to an integer
+     */
+    public static function decodeInteger($data)
+    {
+        return (new Base85(self::$options))->decodeInteger($data);
     }
 }

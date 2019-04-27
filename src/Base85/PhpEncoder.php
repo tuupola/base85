@@ -33,11 +33,15 @@ namespace Tuupola\Base85;
 
 class PhpEncoder extends BaseEncoder
 {
-    public function encode($data)
+    public function encode($data, $integer = false)
     {
         /* If we got integer convert it to string. */
-        if (is_integer($data)) {
-            $data = pack("N", $data);
+        if (is_integer($data) || true === $integer) {
+            if (8 === PHP_INT_SIZE) {
+                $data = pack("J", $data);
+            } else {
+                $data = pack("N", $data);
+            }
         };
 
         $padding = 0;

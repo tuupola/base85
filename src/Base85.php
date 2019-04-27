@@ -64,4 +64,19 @@ final class Base85
     {
         return $this->encoder->decode($data, $integer);
     }
+
+    /**
+     * Encode given integer to a base85 string
+     */
+    public function encodeInteger($data)
+    {
+        return $this->encoder->encodeInteger($data);
+    }
+    /**
+     * Decode given base85 string back to an integer
+     */
+    public function decodeInteger($data)
+    {
+        return $this->encoder->decodeInteger($data);
+    }
 }
