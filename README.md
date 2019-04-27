@@ -123,22 +123,6 @@ Z85::$options = [
 print Z85::encode("Hello world!"); /* NM=qnZy<MXa+]NF */
 ```
 
-## Short UUID
-
-If you are using UUID:s they can be shortened.
-
-``` php
-use Ramsey\Uuid\Uuid;
-use Tuupola\Base85;
-
-$base85 = new Base85;
-$uuid = Uuid::fromString("d84560c8-134f-11e6-a1e2-34363bd26dae");
-
-$base85->encode($uuid->getBytes()); /* fL92h'2K5&U#Ime447uK */
-$uuid = Uuid::fromBytes($base85->decode("fL92h'2K5&U#Ime447uK"));
-print $uuid; /* d84560c8-134f-11e6-a1e2-34363bd26dae */
-```
-
 ## Testing
 
 You can run tests either manually or automatically on every code change. Automatic tests require [entr](http://entrproject.org/) to work.
