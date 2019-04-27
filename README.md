@@ -98,6 +98,21 @@ $rfc1924 = new Base85([
 print $rfc1924->encode("Hello world!"); /* NM&qnZy<MXa%^NF */
 ```
 
+## Speed
+
+Install GMP if you can. It is much faster pure PHP encoder. Below benchmarks are for encoding `random_bytes(128)` data.
+
+```
+$ vendor/bin/phpbench run benchmarks/ --report=default
+
++-----------------+-----------------+----------+
+| subject         | mean            | diff     |
++-----------------+-----------------+----------+
+| benchGmpEncoder | 6,604.584ops/s  | +127.21% |
+| benchPhpEncoder | 15,006.318ops/s | 0.00%    |
++-----------------+-----------------+----------+
+```
+
 ## Static Proxy
 
 If you prefer static syntax use the provided static proxy.
