@@ -181,42 +181,6 @@ class Base85Test extends TestCase
         $this->assertEquals($encoded5, "!!!$$!sAc3");
     }
 
-    // public function testShouldUseInvertedCharacterSet()
-    // {
-    //     $data = "Hello world!";
-
-    //     $php = new PhpEncoder(["characters" => Base85::INVERTED]);
-    //     $gmp = new GmpEncoder(["characters" => Base85::INVERTED]);
-    //     $base85 = new Base85(["characters" => Base85::INVERTED]);
-
-    //     $encoded = $php->encode($data);
-    //     $encoded2 = $gmp->encode($data);
-    //     $encoded4 = $base85->encode($data);
-
-    //     Base85Proxy::$options = [
-    //         "characters" => Base85::INVERTED,
-    //     ];
-    //     $encoded5 = Base85Proxy::encode($data);
-
-    //     $this->assertEquals($encoded, "t8DGCJrgUyuUEwHT");
-    //     $this->assertEquals($encoded2, "t8DGCJrgUyuUEwHT");
-    //     $this->assertEquals($encoded3, "t8DGCJrgUyuUEwHT");
-    //     $this->assertEquals($encoded4, "t8DGCJrgUyuUEwHT");
-    //     $this->assertEquals($encoded5, "t8DGCJrgUyuUEwHT");
-
-    //     $data = hex2bin("0000010203040506");
-
-    //     $encoded = $php->encode($data);
-    //     $encoded2 = $gmp->encode($data);
-    //     $encoded4 = $base85->encode($data);
-    //     $encoded5 = Base85Proxy::encode($data);
-
-    //     $this->assertEquals($encoded, "00jvB3wii");
-    //     $this->assertEquals($encoded2, "00jvB3wii");
-    //     $this->assertEquals($encoded4, "00jvB3wii");
-    //     $this->assertEquals($encoded5, "00jvB3wii");
-    // }
-
     public function testShouldUseCustomCharacterSet()
     {
         $data = "Hello world!";
@@ -281,28 +245,17 @@ class Base85Test extends TestCase
         $this->assertEquals($data, Base85Proxy::decodeInteger($encoded5));
     }
 
-    // public function testShouldThrowExceptionOnDecodeInvalidData()
-    // {
-    //     $invalid = "invalid~data-%@#!@*#-foo";
+    /**
+     * @dataProvider encoderProvider
+     */
+    public function testShouldThrowExceptionOnDecodeInvalidData($encoder)
+    {
+        $this->expectException(InvalidArgumentException::class);
 
-    //     $decoders = [
-    //         new PhpEncoder(),
-    //         new GmpEncoder(),
-    //         new Base85(),
-    //     ];
+        $invalid = "~T8dgcjRGuYUueWht~";
 
-    //     foreach ($decoders as $decoder) {
-    //         $caught = null;
-
-    //         try {
-    //             $decoder->decode($invalid, false);
-    //         } catch (InvalidArgumentException $exception) {
-    //             $caught = $exception;
-    //         }
-
-    //         $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-    //     }
-    // }
+        (new $encoder())->decode($invalid);
+    }
 
     /**
      * @dataProvider encoderProvider
@@ -321,46 +274,19 @@ class Base85Test extends TestCase
         (new $encoder($options))->decode($invalid);
     }
 
-    public function testShouldThrowExceptionWithInvalidCharacterSet()
+    /**
+     * @dataProvider encoderProvider
+     */
+    public function testShouldThrowExceptionWithInvalidCharacterSet($encoder)
     {
+        $this->expectException(InvalidArgumentException::class);
+
+        /* Some characters more than once. */
         $options = [
             "characters" => "!!#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstu"
         ];
 
-        $decoders = [
-            PhpEncoder::class,
-            GmpEncoder::class,
-            Base85::class,
-        ];
-
-        foreach ($decoders as $decoder) {
-            $caught = null;
-
-            try {
-                new $decoder($options);
-            } catch (InvalidArgumentException $exception) {
-                $caught = $exception;
-            }
-
-            $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-        }
-
-        $options = [
-            "characters" => "00123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-        ];
-
-
-        foreach ($decoders as $decoder) {
-            $caught = null;
-
-            try {
-                new $decoder($options);
-            } catch (InvalidArgumentException $exception) {
-                $caught = $exception;
-            }
-
-            $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-        }
+        (new $encoder($options));
     }
 
     /**
