@@ -38,7 +38,7 @@ use PHPUnit\Framework\TestCase;
 
 class Base85Test extends TestCase
 {
-    protected function tearDown()
+    protected function tearDown(): void
     {
         Base85Proxy::$options = [
             "characters" => Base85::ASCII85,
@@ -77,8 +77,6 @@ class Base85Test extends TestCase
         $this->assertEquals($data, $base85->decode($encoded4));
         $this->assertEquals($data, Base85Proxy::decode($encoded5));
     }
-
-
 
     /**
      * @dataProvider configurationProvider
@@ -306,8 +304,13 @@ class Base85Test extends TestCase
     //     }
     // }
 
-    public function testShouldThrowExceptionOnDecodeInvalidDataWithCustomCharacterSet()
+    /**
+     * @dataProvider encoderProvider
+     */
+    public function testShouldThrowExceptionOnDecodeInvalidDataWithCustomCharacterSet($encoder)
     {
+        $this->expectException(InvalidArgumentException::class);
+
         /* This would normally be valid, however the custom character set */
         /* is missing the e character. */
         $invalid = "T8dgcjRGuYUueWht";
@@ -315,23 +318,7 @@ class Base85Test extends TestCase
             "characters" => "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdxfghijklmnopqrstu"
         ];
 
-        $decoders = [
-            new PhpEncoder($options),
-            new GmpEncoder($options),
-            new Base85($options),
-        ];
-
-        foreach ($decoders as $decoder) {
-            $caught = null;
-
-            try {
-                $decoder->decode($invalid, false);
-            } catch (InvalidArgumentException $exception) {
-                $caught = $exception;
-            }
-
-            $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-        }
+        (new $encoder($options))->decode($invalid);
     }
 
     public function testShouldThrowExceptionWithInvalidCharacterSet()
@@ -516,14 +503,14 @@ class Base85Test extends TestCase
         ];
     }
 
-
-
-
-
-
-
-
-
+    public function encoderProvider()
+    {
+        return [
+            "PHP encoder" => [PhpEncoder::class],
+            "GMP encoder" => [GmpEncoder::class],
+            "Base encoder" => [Base85::class],
+        ];
+    }
 
     public function testShouldHandleFourSpacesException()
     {
