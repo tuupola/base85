@@ -38,7 +38,7 @@ use PHPUnit\Framework\TestCase;
 
 class Base85Test extends TestCase
 {
-    protected function tearDown()
+    protected function tearDown(): void
     {
         Base85Proxy::$options = [
             "characters" => Base85::ASCII85,
@@ -309,6 +309,8 @@ class Base85Test extends TestCase
      */
     public function testShouldThrowExceptionOnDecodeInvalidDataWithCustomCharacterSet($encoder)
     {
+        $this->expectException(InvalidArgumentException::class);
+
         /* This would normally be valid, however the custom character set */
         /* is missing the e character. */
         $invalid = "T8dgcjRGuYUueWht";
@@ -317,18 +319,6 @@ class Base85Test extends TestCase
         ];
 
         (new $encoder($options))->decode($invalid);
-
-        // foreach ($decoders as $decoder) {
-        //     $caught = null;
-
-        //     try {
-        //         $decoder->decode($invalid, false);
-        //     } catch (InvalidArgumentException $exception) {
-        //         $caught = $exception;
-        //     }
-
-        //     $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-        // }
     }
 
     public function testShouldThrowExceptionWithInvalidCharacterSet()
@@ -518,7 +508,7 @@ class Base85Test extends TestCase
         return [
             "PHP encoder" => [PhpEncoder::class],
             "GMP encoder" => [GmpEncoder::class],
-            "Base encoder" => [Base58::class],
+            "Base encoder" => [Base85::class],
         ];
     }
 
