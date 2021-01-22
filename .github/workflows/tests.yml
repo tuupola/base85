@@ -34,5 +34,5 @@ jobs:
         run: make unit
       # - name: Run static analysis
       #   run: make static
-      # - name: Upload coverage
+      - name: Upload coverage
         uses: codecov/codecov-action@v1
