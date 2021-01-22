@@ -32,6 +32,6 @@
         "phpunit/phpunit": "^4.8 || ^5.5 || ^6.5",
         "paragonie/random_compat": "^2.0",
         "phpbench/phpbench": "^0.13.0|1.0.0-alpha3",
-        "overtrue/phplint": "^0.2.0"
+        "overtrue/phplint": "^1.0"
     }
 }
