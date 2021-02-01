@@ -38,7 +38,7 @@ use PHPUnit\Framework\TestCase;
 
 class Base85Test extends TestCase
 {
-    protected function tearDown(): void
+    protected function tearDown()
     {
         Base85Proxy::$options = [
             "characters" => Base85::ASCII85,
