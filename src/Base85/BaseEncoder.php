@@ -36,6 +36,9 @@ use Tuupola\Base85;
 
 abstract class BaseEncoder
 {
+    /**
+     * @var array<string, null|bool|string>
+     */
     protected $options = [
         "characters" => Base85::ASCII85,
         "compress.spaces" => false,
@@ -44,7 +47,7 @@ abstract class BaseEncoder
         "suffix" => null,
     ];
 
-    public function __construct($options = [])
+    public function __construct(array $options = [])
     {
         $this->options = array_merge($this->options, (array) $options);
 
@@ -54,7 +57,7 @@ abstract class BaseEncoder
         }
     }
 
-    private function prepareData($data)
+    private function prepareData(string $data): array
     {
         /* Extract data between prefix and suffix. */
         if ($this->options["prefix"] && $this->options["suffix"]) {
@@ -110,12 +113,12 @@ abstract class BaseEncoder
     /**
      * Encode given data to a base85 string
      */
-    abstract public function encode($data);
+    abstract public function encode(string $data): string;
 
     /**
      * Decode given a base85 string back to data
      */
-    public function decode($data)
+    public function decode(string $data): string
     {
         $converted = $this->prepareData($data);
         return implode($converted);
@@ -124,15 +127,12 @@ abstract class BaseEncoder
     /**
      * Encode given integer to a base85 string
      */
-    public function encodeInteger($data)
-    {
-        return $this->encode($data, true);
-    }
+    abstract public function encodeInteger(int $data): string;
 
     /**
      * Decode given base85 string back to an integer
      */
-    public function decodeInteger($data)
+    public function decodeInteger(string $data): int
     {
         $converted = $this->prepareData($data);
 

@@ -31,7 +31,7 @@ static: vendor
 bench: vendor
 	vendor/bin/phpbench run benchmarks/ --report=default
 
-test: lint unit
+test: lint unit static
 
 clean:
 	rm -rf vendor

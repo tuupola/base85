@@ -36,7 +36,7 @@ class PhpEncoder extends BaseEncoder
     /**
      * Encode given data to a base85 string
      */
-    public function encode($data)
+    public function encode(string $data): string
     {
         $padding = 0;
         if ($modulus = strlen($data) % 4) {
@@ -94,7 +94,7 @@ class PhpEncoder extends BaseEncoder
     /**
      * Decode given a base85 string back to data
      */
-    public function encodeInteger($data)
+    public function encodeInteger(int $data): string
     {
         /* Convert integer to string. */
         if (8 === PHP_INT_SIZE) {

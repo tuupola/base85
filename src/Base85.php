@@ -43,10 +43,17 @@ final class Base85
     /* https://tools.ietf.org/html/rfc1924 which is an Aprils fools joke. */
     const RFC1924 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&()*+-;<=>?@^_`{|}~";
 
+    /**
+     * @var array<string, null|bool|string>
+     */
     private $options = [];
+
+    /**
+      * @var Base85\GmpEncoder|Base85\PhpEncoder
+      */
     private $encoder;
 
-    public function __construct($options = [])
+    public function __construct(array $options = [])
     {
         $this->options = array_merge($this->options, (array) $options);
         if (function_exists("gmp_init")) {
@@ -58,7 +65,7 @@ final class Base85
     /**
      * Encode given data to a base85 string
      */
-    public function encode($data)
+    public function encode(string $data): string
     {
         return $this->encoder->encode($data);
     }
@@ -66,7 +73,7 @@ final class Base85
     /**
      * Decode given a base85 string back to data
      */
-    public function decode($data)
+    public function decode(string $data): string
     {
         return $this->encoder->decode($data);
     }
@@ -74,14 +81,14 @@ final class Base85
     /**
      * Encode given integer to a base85 string
      */
-    public function encodeInteger($data)
+    public function encodeInteger(int $data): string
     {
         return $this->encoder->encodeInteger($data);
     }
     /**
      * Decode given base85 string back to an integer
      */
-    public function decodeInteger($data)
+    public function decodeInteger(string $data): int
     {
         return $this->encoder->decodeInteger($data);
     }
