@@ -107,7 +107,7 @@ abstract class BaseEncoder
         return $converted;
     }
 
-    abstract public function encode($data, $integer = false);
+    abstract public function encode($data);
 
     public function decode($data)
     {

@@ -33,7 +33,7 @@ namespace Tuupola\Base85;
 
 class GmpEncoder extends BaseEncoder
 {
-    public function encode($data, $integer = false)
+    public function encode($data)
     {
         $powers = [
             gmp_init("52200625", 10),
@@ -42,14 +42,6 @@ class GmpEncoder extends BaseEncoder
             gmp_init("85", 10),
             gmp_init("1", 10),
         ];
-
-        if (is_integer($data) || true === $integer) {
-            if (8 === PHP_INT_SIZE) {
-                $data = pack("J", $data);
-            } else {
-                $data = pack("N", $data);
-            }
-        };
 
         $padding = 0;
         if ($modulus = strlen($data) % 4) {
@@ -103,5 +95,17 @@ class GmpEncoder extends BaseEncoder
         $converted[] = $this->options["suffix"];
 
         return implode($converted);
+    }
+
+    public function encodeInteger($data)
+    {
+        /* Convert integer to string. */
+        if (8 === PHP_INT_SIZE) {
+            $data = pack("J", $data);
+        } else {
+            $data = pack("N", $data);
+        }
+
+        return $this->encode($data);
     }
 }

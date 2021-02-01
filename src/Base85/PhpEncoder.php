@@ -33,17 +33,8 @@ namespace Tuupola\Base85;
 
 class PhpEncoder extends BaseEncoder
 {
-    public function encode($data, $integer = false)
+    public function encode($data)
     {
-        /* If we got integer convert it to string. */
-        if (is_integer($data) || true === $integer) {
-            if (8 === PHP_INT_SIZE) {
-                $data = pack("J", $data);
-            } else {
-                $data = pack("N", $data);
-            }
-        };
-
         $padding = 0;
         if ($modulus = strlen($data) % 4) {
             $padding = 4 - $modulus;
@@ -95,5 +86,17 @@ class PhpEncoder extends BaseEncoder
         $converted[] = $this->options["suffix"];
 
         return implode($converted);
+    }
+
+    public function encodeInteger($data)
+    {
+        /* Convert integer to string. */
+        if (8 === PHP_INT_SIZE) {
+            $data = pack("J", $data);
+        } else {
+            $data = pack("N", $data);
+        }
+
+        return $this->encode($data);
     }
 }
