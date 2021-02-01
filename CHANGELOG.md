@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## [1.0.0](https://github.com/tuupola/base85/compare/0.4.0...1.0.0) - 2021-02-01
+
+This is same as previous but released as stable.
+
 ## [0.4.0](https://github.com/tuupola/base85/compare/0.3.1...0.4.0) - 2019-04-27
 
 ### Added
