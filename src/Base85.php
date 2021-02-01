@@ -60,9 +60,9 @@ final class Base85
         return $this->encoder->encode($data);
     }
 
-    public function decode($data, $integer = false)
+    public function decode($data)
     {
-        return $this->encoder->decode($data, $integer);
+        return $this->encoder->decode($data);
     }
 
     /**
