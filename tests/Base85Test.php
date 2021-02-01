@@ -183,42 +183,6 @@ class Base85Test extends TestCase
         $this->assertEquals($encoded5, "!!!$$!sAc3");
     }
 
-    // public function testShouldUseInvertedCharacterSet()
-    // {
-    //     $data = "Hello world!";
-
-    //     $php = new PhpEncoder(["characters" => Base85::INVERTED]);
-    //     $gmp = new GmpEncoder(["characters" => Base85::INVERTED]);
-    //     $base85 = new Base85(["characters" => Base85::INVERTED]);
-
-    //     $encoded = $php->encode($data);
-    //     $encoded2 = $gmp->encode($data);
-    //     $encoded4 = $base85->encode($data);
-
-    //     Base85Proxy::$options = [
-    //         "characters" => Base85::INVERTED,
-    //     ];
-    //     $encoded5 = Base85Proxy::encode($data);
-
-    //     $this->assertEquals($encoded, "t8DGCJrgUyuUEwHT");
-    //     $this->assertEquals($encoded2, "t8DGCJrgUyuUEwHT");
-    //     $this->assertEquals($encoded3, "t8DGCJrgUyuUEwHT");
-    //     $this->assertEquals($encoded4, "t8DGCJrgUyuUEwHT");
-    //     $this->assertEquals($encoded5, "t8DGCJrgUyuUEwHT");
-
-    //     $data = hex2bin("0000010203040506");
-
-    //     $encoded = $php->encode($data);
-    //     $encoded2 = $gmp->encode($data);
-    //     $encoded4 = $base85->encode($data);
-    //     $encoded5 = Base85Proxy::encode($data);
-
-    //     $this->assertEquals($encoded, "00jvB3wii");
-    //     $this->assertEquals($encoded2, "00jvB3wii");
-    //     $this->assertEquals($encoded4, "00jvB3wii");
-    //     $this->assertEquals($encoded5, "00jvB3wii");
-    // }
-
     public function testShouldUseCustomCharacterSet()
     {
         $data = "Hello world!";
