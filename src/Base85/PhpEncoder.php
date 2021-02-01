@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
 
 Copyright (c) 2017-2021 Mika Tuupola
@@ -36,7 +38,7 @@ class PhpEncoder extends BaseEncoder
     /**
      * Encode given data to a base85 string
      */
-    public function encode($data)
+    public function encode(string $data): string
     {
         $padding = 0;
         if ($modulus = strlen($data) % 4) {
@@ -45,7 +47,7 @@ class PhpEncoder extends BaseEncoder
         $data .= str_repeat("\0", $padding);
 
         $converted = [$this->options["prefix"]];
-        foreach (unpack("N*", $data) as $uint32) {
+        foreach ((array)unpack("N*", $data) as $uint32) {
             /* Four spaces exception. */
             if ($this->options["compress.spaces"]) {
                 if (0x20202020 === $uint32) {
@@ -94,7 +96,7 @@ class PhpEncoder extends BaseEncoder
     /**
      * Decode given a base85 string back to data
      */
-    public function encodeInteger($data)
+    public function encodeInteger(int $data): string
     {
         /* Convert integer to string. */
         if (8 === PHP_INT_SIZE) {

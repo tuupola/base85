@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
 
 Copyright (c) 2017-2021 Mika Tuupola
@@ -36,7 +38,7 @@ class GmpEncoder extends BaseEncoder
     /**
      * Encode given data to a base85 string
      */
-    public function encode($data)
+    public function encode(string $data): string
     {
         $powers = [
             gmp_init("52200625", 10),
@@ -53,7 +55,7 @@ class GmpEncoder extends BaseEncoder
         }
 
         $converted = [$this->options["prefix"]];
-        foreach (unpack("N*", $data) as $uint32) {
+        foreach ((array)unpack("N*", $data) as $uint32) {
             /* Four spaces exception. */
             if ($this->options["compress.spaces"]) {
                 if (0x20202020 === $uint32) {
@@ -101,9 +103,9 @@ class GmpEncoder extends BaseEncoder
     }
 
     /**
-     * Decode given a base85 string back to data
+     * Encode given integer to a base85 string
      */
-    public function encodeInteger($data)
+    public function encodeInteger(int $data): string
     {
         /* Convert integer to string. */
         if (8 === PHP_INT_SIZE) {

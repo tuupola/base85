@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
 
 Copyright (c) 2017-2021 Mika Tuupola
@@ -36,6 +38,9 @@ use Tuupola\Base85;
 
 abstract class BaseEncoder
 {
+    /**
+     * @var array
+     */
     protected $options = [
         "characters" => Base85::ASCII85,
         "compress.spaces" => false,
@@ -44,17 +49,18 @@ abstract class BaseEncoder
         "suffix" => null,
     ];
 
-    public function __construct($options = [])
+    public function __construct(array $options = [])
     {
         $this->options = array_merge($this->options, (array) $options);
 
         $uniques = count_chars($this->options["characters"], 3);
+        /** @phpstan-ignore-next-line */
         if (85 !== strlen($uniques) || 85 !== strlen($this->options["characters"])) {
             throw new InvalidArgumentException("Character set must contain 85 unique characters");
         }
     }
 
-    private function prepareData($data)
+    private function prepareData(string $data): array
     {
         /* Extract data between prefix and suffix. */
         if ($this->options["prefix"] && $this->options["suffix"]) {
@@ -78,6 +84,7 @@ abstract class BaseEncoder
             $invalid = str_replace($valid, "", $data);
             $invalid = count_chars($invalid, 3);
             throw new InvalidArgumentException(
+                /** @phpstan-ignore-next-line */
                 "Data contains invalid characters \"{$invalid}\""
             );
         }
@@ -92,7 +99,7 @@ abstract class BaseEncoder
         $digits =  str_split($data, 5);
         $converted = array_map(function ($value) {
             $accumulator = 0;
-            foreach (unpack("C*", $value) as $char) {
+            foreach ((array)unpack("C*", $value) as $char) {
                 $accumulator = $accumulator * 85 + strpos($this->options["characters"], chr($char));
             }
             return pack("N", $accumulator);
@@ -110,12 +117,12 @@ abstract class BaseEncoder
     /**
      * Encode given data to a base85 string
      */
-    abstract public function encode($data);
+    abstract public function encode(string $data): string;
 
     /**
      * Decode given a base85 string back to data
      */
-    public function decode($data)
+    public function decode(string $data): string
     {
         $converted = $this->prepareData($data);
         return implode($converted);
@@ -124,22 +131,19 @@ abstract class BaseEncoder
     /**
      * Encode given integer to a base85 string
      */
-    public function encodeInteger($data)
-    {
-        return $this->encode($data, true);
-    }
+    abstract public function encodeInteger(int $data): string;
 
     /**
      * Decode given base85 string back to an integer
      */
-    public function decodeInteger($data)
+    public function decodeInteger(string $data): int
     {
         $converted = $this->prepareData($data);
 
         if (8 === PHP_INT_SIZE) {
-            return array_values(unpack("J", implode($converted)))[0];
+            return array_values((array)unpack("J", implode($converted)))[0];
         } else {
-            return array_values(unpack("N", implode($converted)))[0];
+            return array_values((array)unpack("N", implode($converted)))[0];
         }
     }
 }

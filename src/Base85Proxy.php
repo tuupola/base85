@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
 
 Copyright (c) 2017-2021 Mika Tuupola
@@ -35,6 +37,9 @@ use Tuupola\Base85;
 
 class Base85Proxy
 {
+    /**
+     * @var array
+     */
     public static $options = [
         "characters" => Base85::ASCII85,
         "compress.spaces" => false,
@@ -46,7 +51,7 @@ class Base85Proxy
     /**
      * Encode given data to a base85 string
      */
-    public static function encode($data)
+    public static function encode(string $data): string
     {
         return (new Base85(self::$options))->encode($data);
     }
@@ -54,7 +59,7 @@ class Base85Proxy
     /**
      * Decode given a base85 string back to data
      */
-    public static function decode($data)
+    public static function decode(string $data): string
     {
         return (new Base85(self::$options))->decode($data);
     }
@@ -62,7 +67,7 @@ class Base85Proxy
     /**
      * Encode given integer to a base85 string
      */
-    public static function encodeInteger($data)
+    public static function encodeInteger(int $data): string
     {
         return (new Base85(self::$options))->encodeInteger($data);
     }
@@ -70,7 +75,7 @@ class Base85Proxy
     /**
      * Decode given base85 string back to an integer
      */
-    public static function decodeInteger($data)
+    public static function decodeInteger(string $data): int
     {
         return (new Base85(self::$options))->decodeInteger($data);
     }
