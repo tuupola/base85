@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 - Allow installing with PHP 8 ([#8](https://github.com/tuupola/base85/pull/8)).
+- Static analysis ([#14](https://github.com/tuupola/base85/pull/14)).
 
 ## [1.0.0](https://github.com/tuupola/base85/compare/0.4.0...1.0.0) - 2021-02-01
 
