@@ -78,8 +78,6 @@ class Base85Test extends TestCase
         $this->assertEquals($data, Base85Proxy::decode($encoded5));
     }
 
-
-
     /**
      * @dataProvider configurationProvider
      */
@@ -247,31 +245,25 @@ class Base85Test extends TestCase
         $this->assertEquals($data, Base85Proxy::decodeInteger($encoded5));
     }
 
-    // public function testShouldThrowExceptionOnDecodeInvalidData()
-    // {
-    //     $invalid = "invalid~data-%@#!@*#-foo";
-
-    //     $decoders = [
-    //         new PhpEncoder(),
-    //         new GmpEncoder(),
-    //         new Base85(),
-    //     ];
-
-    //     foreach ($decoders as $decoder) {
-    //         $caught = null;
-
-    //         try {
-    //             $decoder->decode($invalid, false);
-    //         } catch (InvalidArgumentException $exception) {
-    //             $caught = $exception;
-    //         }
-
-    //         $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-    //     }
-    // }
-
-    public function testShouldThrowExceptionOnDecodeInvalidDataWithCustomCharacterSet()
+    /**
+     * @dataProvider encoderProvider
+     */
+    public function testShouldThrowExceptionOnDecodeInvalidData($encoder)
     {
+        $this->expectException(InvalidArgumentException::class);
+
+        $invalid = "~T8dgcjRGuYUueWht~";
+
+        (new $encoder())->decode($invalid);
+    }
+
+    /**
+     * @dataProvider encoderProvider
+     */
+    public function testShouldThrowExceptionOnDecodeInvalidDataWithCustomCharacterSet($encoder)
+    {
+        $this->expectException(InvalidArgumentException::class);
+
         /* This would normally be valid, however the custom character set */
         /* is missing the e character. */
         $invalid = "T8dgcjRGuYUueWht";
@@ -279,65 +271,22 @@ class Base85Test extends TestCase
             "characters" => "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdxfghijklmnopqrstu"
         ];
 
-        $decoders = [
-            new PhpEncoder($options),
-            new GmpEncoder($options),
-            new Base85($options),
-        ];
-
-        foreach ($decoders as $decoder) {
-            $caught = null;
-
-            try {
-                $decoder->decode($invalid, false);
-            } catch (InvalidArgumentException $exception) {
-                $caught = $exception;
-            }
-
-            $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-        }
+        (new $encoder($options))->decode($invalid);
     }
 
-    public function testShouldThrowExceptionWithInvalidCharacterSet()
+    /**
+     * @dataProvider encoderProvider
+     */
+    public function testShouldThrowExceptionWithInvalidCharacterSet($encoder)
     {
+        $this->expectException(InvalidArgumentException::class);
+
+        /* Some characters more than once. */
         $options = [
             "characters" => "!!#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstu"
         ];
 
-        $decoders = [
-            PhpEncoder::class,
-            GmpEncoder::class,
-            Base85::class,
-        ];
-
-        foreach ($decoders as $decoder) {
-            $caught = null;
-
-            try {
-                new $decoder($options);
-            } catch (InvalidArgumentException $exception) {
-                $caught = $exception;
-            }
-
-            $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-        }
-
-        $options = [
-            "characters" => "00123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-        ];
-
-
-        foreach ($decoders as $decoder) {
-            $caught = null;
-
-            try {
-                new $decoder($options);
-            } catch (InvalidArgumentException $exception) {
-                $caught = $exception;
-            }
-
-            $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-        }
+        (new $encoder($options));
     }
 
     /**
@@ -480,14 +429,14 @@ class Base85Test extends TestCase
         ];
     }
 
-
-
-
-
-
-
-
-
+    public function encoderProvider()
+    {
+        return [
+            "PHP encoder" => [PhpEncoder::class],
+            "GMP encoder" => [GmpEncoder::class],
+            "Base encoder" => [Base85::class],
+        ];
+    }
 
     public function testShouldHandleFourSpacesException()
     {
