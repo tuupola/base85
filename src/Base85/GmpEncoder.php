@@ -33,6 +33,9 @@ namespace Tuupola\Base85;
 
 class GmpEncoder extends BaseEncoder
 {
+    /**
+     * Encode given data to a base85 string
+     */
     public function encode($data)
     {
         $powers = [
@@ -97,6 +100,9 @@ class GmpEncoder extends BaseEncoder
         return implode($converted);
     }
 
+    /**
+     * Decode given a base85 string back to data
+     */
     public function encodeInteger($data)
     {
         /* Convert integer to string. */

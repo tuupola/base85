@@ -107,8 +107,14 @@ abstract class BaseEncoder
         return $converted;
     }
 
+    /**
+     * Encode given data to a base85 string
+     */
     abstract public function encode($data);
 
+    /**
+     * Decode given a base85 string back to data
+     */
     public function decode($data)
     {
         $converted = $this->prepareData($data);
@@ -122,6 +128,7 @@ abstract class BaseEncoder
     {
         return $this->encode($data, true);
     }
+
     /**
      * Decode given base85 string back to an integer
      */
