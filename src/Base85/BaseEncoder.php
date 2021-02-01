@@ -54,9 +54,7 @@ abstract class BaseEncoder
         }
     }
 
-    abstract public function encode($data, $integer = false);
-
-    public function decode($data, $integer = false)
+    private function prepareData($data)
     {
         /* Extract data between prefix and suffix. */
         if ($this->options["prefix"] && $this->options["suffix"]) {
@@ -106,13 +104,20 @@ abstract class BaseEncoder
             $converted[$last] = substr($converted[$last], 0, 4 - $padding);
         }
 
-        if (true === $integer) {
-            if (8 === PHP_INT_SIZE) {
-                return array_values(unpack("J", implode($converted)))[0];
-            } else {
-                return array_values(unpack("N", implode($converted)))[0];
-            }
-        }
+        return $converted;
+    }
+
+    /**
+     * Encode given data to a base85 string
+     */
+    abstract public function encode($data);
+
+    /**
+     * Decode given a base85 string back to data
+     */
+    public function decode($data)
+    {
+        $converted = $this->prepareData($data);
         return implode($converted);
     }
 
@@ -123,11 +128,18 @@ abstract class BaseEncoder
     {
         return $this->encode($data, true);
     }
+
     /**
      * Decode given base85 string back to an integer
      */
     public function decodeInteger($data)
     {
-        return $this->decode($data, true);
+        $converted = $this->prepareData($data);
+
+        if (8 === PHP_INT_SIZE) {
+            return array_values(unpack("J", implode($converted)))[0];
+        } else {
+            return array_values(unpack("N", implode($converted)))[0];
+        }
     }
 }
