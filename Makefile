@@ -7,6 +7,7 @@ help:
 	@echo "    watch   Run all tests and coverage when a source file is upaded"
 	@echo "    lint    Run only linter and code style checker"
 	@echo "    unit    Run unit tests and generate coverage"
+	@echo "    static  Run static analysis"
 	@echo "    vendor  Install dependencies"
 	@echo "    clean   Remove vendor and composer.lock"
 	@echo ""
@@ -23,6 +24,9 @@ unit: vendor
 
 watch: vendor
 	find . -name "*.php" -not -path "./vendor/*" -o -name "*.json" -not -path "./vendor/*" | entr -c make test
+
+static: vendor
+	vendor/bin/phpstan analyse src --level max
 
 bench: vendor
 	vendor/bin/phpbench run benchmarks/ --report=default
