@@ -54,9 +54,9 @@ class Base85Proxy
     /**
      * Decode given a base85 string back to data
      */
-    public static function decode($data, $integer = false)
+    public static function decode($data)
     {
-        return (new Base85(self::$options))->decode($data, $integer);
+        return (new Base85(self::$options))->decode($data);
     }
 
     /**
