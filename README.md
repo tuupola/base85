@@ -2,7 +2,7 @@
 
 [![Latest Version](https://img.shields.io/packagist/v/tuupola/base85.svg?style=flat-square)](https://packagist.org/packages/tuupola/base85)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/github/workflow/status/tuupola/base85/tests/master?style=flat-square)](https://github.com/tuupola/base85/actions)
+[![Build Status](https://img.shields.io/github/workflow/status/tuupola/base85/Tests/1.x?style=flat-square)](https://github.com/tuupola/base85/actions)
 [![Coverage](https://img.shields.io/codecov/c/github/tuupola/base85.svg?style=flat-square)](https://codecov.io/github/tuupola/base85)
 
 ## Install
