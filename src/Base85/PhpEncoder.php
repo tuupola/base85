@@ -45,7 +45,7 @@ class PhpEncoder extends BaseEncoder
         $data .= str_repeat("\0", $padding);
 
         $converted = [$this->options["prefix"]];
-        foreach (unpack("N*", $data) as $uint32) {
+        foreach ((array)unpack("N*", $data) as $uint32) {
             /* Four spaces exception. */
             if ($this->options["compress.spaces"]) {
                 if (0x20202020 === $uint32) {

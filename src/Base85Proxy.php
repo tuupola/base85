@@ -36,7 +36,7 @@ use Tuupola\Base85;
 class Base85Proxy
 {
     /**
-     * @var array<string, null|bool|string>
+     * @var array
      */
     public static $options = [
         "characters" => Base85::ASCII85,

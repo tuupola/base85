@@ -37,7 +37,7 @@ use Tuupola\Base85;
 abstract class BaseEncoder
 {
     /**
-     * @var array<string, null|bool|string>
+     * @var array
      */
     protected $options = [
         "characters" => Base85::ASCII85,
@@ -52,6 +52,7 @@ abstract class BaseEncoder
         $this->options = array_merge($this->options, (array) $options);
 
         $uniques = count_chars($this->options["characters"], 3);
+        /** @phpstan-ignore-next-line */
         if (85 !== strlen($uniques) || 85 !== strlen($this->options["characters"])) {
             throw new InvalidArgumentException("Character set must contain 85 unique characters");
         }
@@ -81,6 +82,7 @@ abstract class BaseEncoder
             $invalid = str_replace($valid, "", $data);
             $invalid = count_chars($invalid, 3);
             throw new InvalidArgumentException(
+                /** @phpstan-ignore-next-line */
                 "Data contains invalid characters \"{$invalid}\""
             );
         }
@@ -95,7 +97,7 @@ abstract class BaseEncoder
         $digits =  str_split($data, 5);
         $converted = array_map(function ($value) {
             $accumulator = 0;
-            foreach (unpack("C*", $value) as $char) {
+            foreach ((array)unpack("C*", $value) as $char) {
                 $accumulator = $accumulator * 85 + strpos($this->options["characters"], chr($char));
             }
             return pack("N", $accumulator);
@@ -137,9 +139,9 @@ abstract class BaseEncoder
         $converted = $this->prepareData($data);
 
         if (8 === PHP_INT_SIZE) {
-            return array_values(unpack("J", implode($converted)))[0];
+            return array_values((array)unpack("J", implode($converted)))[0];
         } else {
-            return array_values(unpack("N", implode($converted)))[0];
+            return array_values((array)unpack("N", implode($converted)))[0];
         }
     }
 }

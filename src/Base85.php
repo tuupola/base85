@@ -44,7 +44,7 @@ final class Base85
     const RFC1924 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&()*+-;<=>?@^_`{|}~";
 
     /**
-     * @var array<string, null|bool|string>
+     * @var array
      */
     private $options = [];
 
