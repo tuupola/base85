@@ -33,6 +33,9 @@ namespace Tuupola\Base85;
 
 class PhpEncoder extends BaseEncoder
 {
+    /**
+     * Encode given data to a base85 string
+     */
     public function encode($data, $integer = false)
     {
         /* If we got integer convert it to string. */

@@ -54,8 +54,14 @@ abstract class BaseEncoder
         }
     }
 
+    /**
+     * Encode given data to a base85 string
+     */
     abstract public function encode($data, $integer = false);
 
+    /**
+     * Decode given a base85 string back to data
+     */
     public function decode($data, $integer = false)
     {
         /* Extract data between prefix and suffix. */

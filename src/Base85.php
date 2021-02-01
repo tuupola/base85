@@ -55,11 +55,17 @@ final class Base85
         $this->encoder = new Base85\PhpEncoder($this->options);
     }
 
+    /**
+     * Encode given data to a base85 string
+     */
     public function encode($data)
     {
         return $this->encoder->encode($data);
     }
 
+    /**
+     * Decode given a base85 string back to data
+     */
     public function decode($data, $integer = false)
     {
         return $this->encoder->decode($data, $integer);
