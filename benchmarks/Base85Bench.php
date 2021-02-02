@@ -29,29 +29,51 @@ use Tuupola\Base85\GmpEncoder;
 class Base85Bench
 {
     private $data;
+    private $gmp;
+    private $php;
+    private $encoded;
 
     public function init()
     {
         $this->data = random_bytes(128);
         $this->gmp = new GmpEncoder;
         $this->php = new PhpEncoder;
+        $this->encoded = $this->php->encode($this->data);
     }
 
     /**
      * @Revs(1000)
+     * @Groups({"encoder"})
      */
     public function benchGmpEncoder()
     {
         $encoded = $this->gmp->encode($this->data);
-        $decoded = $this->gmp->decode($encoded);
     }
 
     /**
      * @Revs(1000)
+     * @Groups({"encoder"})
      */
     public function benchPhpEncoder()
     {
         $encoded = $this->php->encode($this->data);
-        $decoded = $this->php->decode($encoded);
+    }
+
+    /**
+     * @Revs(1000)
+     * @Groups({"decoder"})
+     */
+    public function benchGmpDecoder()
+    {
+        $decoded = $this->gmp->decode($this->encoded);
+    }
+
+    /**
+     * @Revs(1000)
+     * @Groups({"decoder"})
+     */
+    public function benchPhpDecoder()
+    {
+        $decoded = $this->php->decode($this->encoded);
     }
 }

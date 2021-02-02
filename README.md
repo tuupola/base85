@@ -99,17 +99,26 @@ print $rfc1924->encode("Hello world!"); /* NM&qnZy<MXa%^NF */
 
 ## Speed
 
-Install GMP if you can. It is much faster pure PHP encoder. Below benchmarks are for encoding `random_bytes(128)` data.
+Pure PHP encoder seems to be faster than the GMP implementation. Below benchmarks use `random_bytes(128)` as data.
 
 ```
+$ php --version
+PHP 8.0.1 (cli) (built: Jan  8 2021 09:07:02) ( NTS )
+
 $ vendor/bin/phpbench run benchmarks/ --report=default
 
-+-----------------+-----------------+----------+
-| subject         | mean            | diff     |
-+-----------------+-----------------+----------+
-| benchGmpEncoder | 6,604.584ops/s  | +127.21% |
-| benchPhpEncoder | 15,006.318ops/s | 0.00%    |
-+-----------------+-----------------+----------+
++-----------------+-----------------+-------+
+| subject         | mean            | diff  |
++-----------------+-----------------+-------+
+| benchGmpDecoder | 24,515.692ops/s | 1.01x |
+| benchPhpDecoder | 24,666.509ops/s | 1.00x |
++-----------------+-----------------+-------+
++-----------------+-----------------+-------+
+| subject         | mean            | diff  |
++-----------------+-----------------+-------+
+| benchGmpEncoder | 9,654.448ops/s  | 4.76x |
+| benchPhpEncoder | 45,944.903ops/s | 1.00x |
++-----------------+-----------------+-------+
 ```
 
 ## Static Proxy
