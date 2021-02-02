@@ -101,19 +101,4 @@ class GmpEncoder extends BaseEncoder
 
         return implode($converted);
     }
-
-    /**
-     * Encode given integer to a base85 string
-     */
-    public function encodeInteger(int $data): string
-    {
-        /* Convert integer to string. */
-        if (8 === PHP_INT_SIZE) {
-            $data = pack("J", $data);
-        } else {
-            $data = pack("N", $data);
-        }
-
-        return $this->encode($data);
-    }
 }

@@ -131,7 +131,17 @@ abstract class BaseEncoder
     /**
      * Encode given integer to a base85 string
      */
-    abstract public function encodeInteger(int $data): string;
+    public function encodeInteger(int $data): string
+    {
+        /* Convert integer to string. */
+        if (8 === PHP_INT_SIZE) {
+            $data = pack("J", $data);
+        } else {
+            $data = pack("N", $data);
+        }
+
+        return $this->encode($data);
+    }
 
     /**
      * Decode given base85 string back to an integer

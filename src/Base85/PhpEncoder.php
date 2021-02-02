@@ -92,19 +92,4 @@ class PhpEncoder extends BaseEncoder
 
         return implode($converted);
     }
-
-    /**
-     * Decode given a base85 string back to data
-     */
-    public function encodeInteger(int $data): string
-    {
-        /* Convert integer to string. */
-        if (8 === PHP_INT_SIZE) {
-            $data = pack("J", $data);
-        } else {
-            $data = pack("N", $data);
-        }
-
-        return $this->encode($data);
-    }
 }
