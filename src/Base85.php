@@ -60,8 +60,9 @@ final class Base85
         $this->options = array_merge($this->options, (array) $options);
         if (function_exists("gmp_init")) {
             $this->encoder = new Base85\GmpEncoder($this->options);
+        } else {
+            $this->encoder = new Base85\PhpEncoder($this->options);
         }
-        $this->encoder = new Base85\PhpEncoder($this->options);
     }
 
     /**
