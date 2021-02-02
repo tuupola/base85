@@ -13,6 +13,9 @@ All notable changes to this project will be documented in this file, in reverse 
 - All methods are typehinted ([#14](https://github.com/tuupola/base85/pull/14)).
 - All type juggling is removed ([#14](https://github.com/tuupola/base85/pull/14)).
 
+### Fixed
+- Autoselection was always choosing the PHP encoder([#15](https://github.com/tuupola/base85/pull/15)).
+
 ## [1.0.0](https://github.com/tuupola/base85/compare/0.4.0...1.0.0) - 2021-02-01
 
 This is same as previous but released as stable.
