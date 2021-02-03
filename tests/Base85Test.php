@@ -514,8 +514,9 @@ class Base85Test extends TestCase
      */
     public function testShouldThrowExceptionOnDecodeEmptyStringInteger($encoder)
     {
+        $invalid = "";
         $this->expectException(InvalidArgumentException::class);
-
-        (new $encoder())->decodeInteger("");
+        $this->expectExceptionMessage("Cannot decode empty string as integer");
+        (new $encoder())->decodeInteger($invalid);
     }
 }
