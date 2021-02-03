@@ -253,6 +253,7 @@ class Base85Test extends TestCase
     public function testShouldThrowExceptionOnDecodeInvalidData($encoder)
     {
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Data contains invalid characters");
 
         $invalid = "~T8dgcjRGuYUueWht~";
 
@@ -265,6 +266,7 @@ class Base85Test extends TestCase
     public function testShouldThrowExceptionOnDecodeInvalidDataWithCustomCharacterSet($encoder)
     {
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Data contains invalid characters");
 
         /* This would normally be valid, however the custom character set */
         /* is missing the e character. */
@@ -279,9 +281,26 @@ class Base85Test extends TestCase
     /**
      * @dataProvider encoderProvider
      */
-    public function testShouldThrowExceptionWithInvalidCharacterSet($encoder)
+    public function testShouldThrowExceptionWithTooSmallCharacterSet($encoder)
     {
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Character set must contain 85 unique characters");
+
+        /* 84 characters */
+        $options = [
+            "characters" =>  "!#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstu"
+        ];
+
+        (new $encoder($options));
+    }
+
+    /**
+     * @dataProvider encoderProvider
+     */
+    public function testShouldThrowExceptionWitDuplicateCharactersInSet($encoder)
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Character set must contain 85 unique characters");
 
         /* Some characters more than once. */
         $options = [
@@ -431,15 +450,6 @@ class Base85Test extends TestCase
         ];
     }
 
-    public function encoderProvider()
-    {
-        return [
-            "PHP encoder" => [PhpEncoder::class],
-            "GMP encoder" => [GmpEncoder::class],
-            "Base encoder" => [Base85::class],
-        ];
-    }
-
     public function testShouldHandleFourSpacesException()
     {
         $this->assertEquals((new PhpEncoder(["compress.spaces" => true]))->encode("    "), "y");
@@ -518,5 +528,14 @@ class Base85Test extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Cannot decode empty string as integer");
         (new $encoder())->decodeInteger($invalid);
+    }
+
+    public function encoderProvider()
+    {
+        return [
+            "PHP encoder" => [PhpEncoder::class],
+            "GMP encoder" => [GmpEncoder::class],
+            "Base encoder" => [Base85::class],
+        ];
     }
 }
