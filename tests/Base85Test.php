@@ -508,4 +508,15 @@ class Base85Test extends TestCase
         $this->assertEquals($phpAdobe85->decode($data), "Not sure.");
         $this->assertEquals(Base85Proxy::decode($data), "Not sure.");
     }
+
+    /**
+     * @dataProvider encoderProvider
+     */
+    public function testShouldThrowExceptionOnDecodeEmptyStringInteger($encoder)
+    {
+        $invalid = "";
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Cannot decode empty string as integer");
+        (new $encoder())->decodeInteger($invalid);
+    }
 }

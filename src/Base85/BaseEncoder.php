@@ -148,6 +148,12 @@ abstract class BaseEncoder
      */
     public function decodeInteger(string $data): int
     {
+        if (empty($data)) {
+            throw new InvalidArgumentException(
+                "Cannot decode empty string as integer"
+            );
+        }
+
         $converted = $this->prepareData($data);
 
         if (8 === PHP_INT_SIZE) {

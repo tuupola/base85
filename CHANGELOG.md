@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file, in reverse 
 - All methods have return types ([#14](https://github.com/tuupola/base85/pull/14)).
 - All methods are typehinted ([#14](https://github.com/tuupola/base85/pull/14)).
 - All type juggling is removed ([#14](https://github.com/tuupola/base85/pull/14)).
-
+- InvalidArgumentException is now thrown if trying to decode empty string as integer ([#18](https://github.com/tuupola/base85/pull/18)).
 ### Fixed
 - Autoselection was always choosing the PHP encoder([#15](https://github.com/tuupola/base85/pull/15)).
 
