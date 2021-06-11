@@ -1,7 +1,7 @@
 # All your Base85
 
 [![Latest Version](https://img.shields.io/packagist/v/tuupola/base85.svg?style=flat-square)](https://packagist.org/packages/tuupola/base85)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 [![Build Status](https://img.shields.io/github/workflow/status/tuupola/base85/Tests/2.x?style=flat-square)](https://github.com/tuupola/base85/actions)[![Coverage](https://img.shields.io/codecov/c/github/tuupola/base85.svg?style=flat-square)](https://codecov.io/github/tuupola/base85)
 
 ## Install
@@ -174,4 +174,4 @@ If you discover any security related issues, please email tuupola@appelsiini.net
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.txt) for more information.
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
