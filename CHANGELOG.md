@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## [2.0.0](https://github.com/tuupola/base85/compare/0.4.0...2.x) - unreleased
+## [2.0.0](https://github.com/tuupola/base85/compare/1.0.0...2.x) - unreleased
 
 ### Added
 - Allow installing with PHP 8 ([#8](https://github.com/tuupola/base85/pull/8)).
