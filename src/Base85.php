@@ -33,7 +33,7 @@ SOFTWARE.
 
 namespace Tuupola;
 
-final class Base85
+class Base85
 {
     /* Adobe ASCII85. Only all zero data exception, ignore whitespace. */
     /* https://www.adobe.com/products/postscript/pdfs/PLRM.pdf */
