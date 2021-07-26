@@ -89,10 +89,13 @@ abstract class BaseEncoder
             );
         }
 
+        /* ASCII85 pads with "u", depends on character set. */
+        $char = $this->options["characters"][84];
         $padding = 0;
+
         if ($modulus = strlen($data) % 5) {
             $padding = 5 - $modulus;
-            $data .= str_repeat("u", $padding);
+            $data .= str_repeat($char, $padding);
         }
 
         /* From group of five base85 characters convert back to uint32. */
