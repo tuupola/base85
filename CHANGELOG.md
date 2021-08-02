@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file, in reverse
 chronological order by release.
 
-## [2.1.0](https://github.com/tuupola/base85/compare/2.0.0...2.x) - unreleased
+## [2.1.0](https://github.com/tuupola/base85/compare/2.0.0...2.1.0) - 2021-08-02
 
 ### Fixed
 - ZeroMQ (Z85) was using wrong character set ([#22](https://github.com/tuupola/base85/issues/22), [#23](https://github.com/tuupola/base85/pull/23)).
