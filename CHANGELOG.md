@@ -1,6 +1,31 @@
 # Changelog
 
-All notable changes to this project will be documented in this file, in reverse chronological order by release.
+All notable changes to this project will be documented in this file, in reverse
+chronological order by release.
+
+## [2.1.0](https://github.com/tuupola/base85/compare/2.0.0...2.x) - unreleased
+
+### Fixed
+- ZeroMQ (Z85) was using wrong character set ([#22](https://github.com/tuupola/base85/issues/22), [#23](https://github.com/tuupola/base85/pull/23)).
+
+    HEADS UP! Even though this is a bugfix it does break BC if you rely on the
+    wrong behaviour. Still, I decided it does not warrant a major version number bump.
+    If you do rely on the wrong behaviour use the new `Base85::Z85BUG` character
+    set instead.
+
+    ``` php
+    use Tuupola\Base85;
+
+    $z85 = new Base85([
+        "characters" => Base85::Z85BUG,
+        "compress.spaces" => false,
+        "compress.zeroes" => false
+    ]);
+    ```
+
+### Added
+- New character set `Base85::Z85BUG` ([#23](https://github.com/tuupola/base85/pull/23)).
+
 
 ## [2.0.0](https://github.com/tuupola/base85/compare/1.0.0...2.0.0) - 2021-06-11
 
