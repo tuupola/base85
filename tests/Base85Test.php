@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 /*
 
-Copyright (c) 2017-2021 Mika Tuupola
+Copyright (c) 2017-2025 Mika Tuupola
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -85,27 +85,40 @@ class Base85Test extends TestCase
      */
     public function testShouldEncodeAndDecodeIntegers($configuration)
     {
-        $data = 987654321;
+        $tests = [
+            1,
+            2,
+            10,
+            127,       /* 2^7 - 1 (max signed byte) */
+            128,       /* 2^7 */
+            255,       /* 2^8 - 1 (max unsigned byte) */
+            256,       /* 2^8 */
+            65535,     /* 2^16 - 1 (max unsigned 16-bit) */
+            65536,     /* 2^16 */
+            987654321,
+        ];
 
         $php = new PhpEncoder($configuration);
         $gmp = new GmpEncoder($configuration);
         $base85 = new Base85($configuration);
 
-        $encoded = $php->encodeInteger($data);
-        $encoded2 = $gmp->encodeInteger($data);
-        $encoded4 = $base85->encodeInteger($data);
-
         Base85Proxy::$options = $configuration;
-        $encoded5 = Base85Proxy::encodeInteger($data);
 
-        $this->assertEquals($encoded2, $encoded);
-        $this->assertEquals($encoded4, $encoded);
-        $this->assertEquals($encoded5, $encoded);
+        foreach ($tests as $data) {
+            $encoded = $php->encodeInteger($data);
+            $encoded2 = $gmp->encodeInteger($data);
+            $encoded4 = $base85->encodeInteger($data);
+            $encoded5 = Base85Proxy::encodeInteger($data);
 
-        $this->assertEquals($data, $php->decodeInteger($encoded));
-        $this->assertEquals($data, $gmp->decodeInteger($encoded2));
-        $this->assertEquals($data, $base85->decodeInteger($encoded4));
-        $this->assertEquals($data, Base85Proxy::decodeInteger($encoded5));
+            $this->assertEquals($encoded2, $encoded);
+            $this->assertEquals($encoded4, $encoded);
+            $this->assertEquals($encoded5, $encoded);
+
+            $this->assertEquals($data, $php->decodeInteger($encoded));
+            $this->assertEquals($data, $gmp->decodeInteger($encoded2));
+            $this->assertEquals($data, $base85->decodeInteger($encoded4));
+            $this->assertEquals($data, Base85Proxy::decodeInteger($encoded5));
+        }
     }
 
     public function testShouldAutoSelectEncoder()
@@ -224,27 +237,36 @@ class Base85Test extends TestCase
      */
     public function testShouldEncodeAndDecodeBigIntegers($configuration)
     {
-        $data = PHP_INT_MAX;
+        $tests = [
+            2147483647,      /* 2^31 - 1 (max signed 32-bit) */
+            2147483648,      /* 2^31 (just over signed 32-bit) */
+            4294967295,      /* 2^32 - 1 (max unsigned 32-bit) */
+            4294967296,      /* 2^32 (just over 32-bit) */
+            PHP_INT_MAX - 1,
+            PHP_INT_MAX,
+        ];
 
         $php = new PhpEncoder($configuration);
         $gmp = new GmpEncoder($configuration);
         $base85 = new Base85($configuration);
 
-        $encoded = $php->encodeInteger($data);
-        $encoded2 = $gmp->encodeInteger($data);
-        $encoded4 = $base85->encodeInteger($data);
-
         Base85Proxy::$options = $configuration;
-        $encoded5 = Base85Proxy::encodeInteger($data);
 
-        $this->assertEquals($encoded2, $encoded);
-        $this->assertEquals($encoded4, $encoded);
-        $this->assertEquals($encoded5, $encoded);
+        foreach ($tests as $data) {
+            $encoded = $php->encodeInteger($data);
+            $encoded2 = $gmp->encodeInteger($data);
+            $encoded4 = $base85->encodeInteger($data);
+            $encoded5 = Base85Proxy::encodeInteger($data);
 
-        $this->assertEquals($data, $php->decodeInteger($encoded));
-        $this->assertEquals($data, $gmp->decodeInteger($encoded2));
-        $this->assertEquals($data, $base85->decodeInteger($encoded4));
-        $this->assertEquals($data, Base85Proxy::decodeInteger($encoded5));
+            $this->assertEquals($encoded2, $encoded);
+            $this->assertEquals($encoded4, $encoded);
+            $this->assertEquals($encoded5, $encoded);
+
+            $this->assertEquals($data, $php->decodeInteger($encoded));
+            $this->assertEquals($data, $gmp->decodeInteger($encoded2));
+            $this->assertEquals($data, $base85->decodeInteger($encoded4));
+            $this->assertEquals($data, Base85Proxy::decodeInteger($encoded5));
+        }
     }
 
     /**
@@ -400,6 +422,62 @@ class Base85Test extends TestCase
     public function testShouldEncodeAndDecodeMultipleZeroBytePrefix($configuration)
     {
         $data = "\x00\x00\x00\x01\x02";
+
+        $php = new PhpEncoder($configuration);
+        $gmp = new GmpEncoder($configuration);
+        $base85 = new Base85($configuration);
+
+        $encoded = $php->encode($data);
+        $encoded2 = $gmp->encode($data);
+        $encoded4 = $base85->encode($data);
+
+        Base85Proxy::$options = $configuration;
+        $encoded5 = Base85Proxy::encode($data);
+
+        $this->assertEquals($encoded2, $encoded);
+        $this->assertEquals($encoded4, $encoded);
+        $this->assertEquals($encoded5, $encoded);
+
+        $this->assertEquals($data, $php->decode($encoded));
+        $this->assertEquals($data, $gmp->decode($encoded2));
+        $this->assertEquals($data, $base85->decode($encoded4));
+        $this->assertEquals($data, Base85Proxy::decode($encoded5));
+    }
+
+    /**
+     * @dataProvider configurationProvider
+     */
+    public function testShouldEncodeAndDecodeZeroInteger($configuration)
+    {
+        $data = 0;
+
+        $php = new PhpEncoder($configuration);
+        $gmp = new GmpEncoder($configuration);
+        $base85 = new Base85($configuration);
+
+        $encoded = $php->encodeInteger($data);
+        $encoded2 = $gmp->encodeInteger($data);
+        $encoded4 = $base85->encodeInteger($data);
+
+        Base85Proxy::$options = $configuration;
+        $encoded5 = Base85Proxy::encodeInteger($data);
+
+        $this->assertEquals($encoded2, $encoded);
+        $this->assertEquals($encoded4, $encoded);
+        $this->assertEquals($encoded5, $encoded);
+
+        $this->assertEquals($data, $php->decodeInteger($encoded));
+        $this->assertEquals($data, $gmp->decodeInteger($encoded2));
+        $this->assertEquals($data, $base85->decodeInteger($encoded4));
+        $this->assertEquals($data, Base85Proxy::decodeInteger($encoded5));
+    }
+
+    /**
+     * @dataProvider configurationProvider
+     */
+    public function testShouldEncodeAndDecodeEmptyString($configuration)
+    {
+        $data = "";
 
         $php = new PhpEncoder($configuration);
         $gmp = new GmpEncoder($configuration);
