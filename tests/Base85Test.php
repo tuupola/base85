@@ -226,27 +226,36 @@ class Base85Test extends TestCase
      */
     public function testShouldEncodeAndDecodeBigIntegers($configuration)
     {
-        $data = PHP_INT_MAX;
+        $tests = [
+            2147483647,      /* 2^31 - 1 (max signed 32-bit) */
+            2147483648,      /* 2^31 (just over signed 32-bit) */
+            4294967295,      /* 2^32 - 1 (max unsigned 32-bit) */
+            4294967296,      /* 2^32 (just over 32-bit) */
+            PHP_INT_MAX - 1,
+            PHP_INT_MAX,
+        ];
 
         $php = new PhpEncoder($configuration);
         $gmp = new GmpEncoder($configuration);
         $base85 = new Base85($configuration);
 
-        $encoded = $php->encodeInteger($data);
-        $encoded2 = $gmp->encodeInteger($data);
-        $encoded4 = $base85->encodeInteger($data);
-
         Base85Proxy::$options = $configuration;
-        $encoded5 = Base85Proxy::encodeInteger($data);
 
-        $this->assertEquals($encoded2, $encoded);
-        $this->assertEquals($encoded4, $encoded);
-        $this->assertEquals($encoded5, $encoded);
+        foreach ($tests as $data) {
+            $encoded = $php->encodeInteger($data);
+            $encoded2 = $gmp->encodeInteger($data);
+            $encoded4 = $base85->encodeInteger($data);
+            $encoded5 = Base85Proxy::encodeInteger($data);
 
-        $this->assertEquals($data, $php->decodeInteger($encoded));
-        $this->assertEquals($data, $gmp->decodeInteger($encoded2));
-        $this->assertEquals($data, $base85->decodeInteger($encoded4));
-        $this->assertEquals($data, Base85Proxy::decodeInteger($encoded5));
+            $this->assertEquals($encoded2, $encoded);
+            $this->assertEquals($encoded4, $encoded);
+            $this->assertEquals($encoded5, $encoded);
+
+            $this->assertEquals($data, $php->decodeInteger($encoded));
+            $this->assertEquals($data, $gmp->decodeInteger($encoded2));
+            $this->assertEquals($data, $base85->decodeInteger($encoded4));
+            $this->assertEquals($data, Base85Proxy::decodeInteger($encoded5));
+        }
     }
 
     /**
