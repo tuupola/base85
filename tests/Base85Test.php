@@ -85,7 +85,18 @@ class Base85Test extends TestCase
      */
     public function testShouldEncodeAndDecodeIntegers($configuration)
     {
-        $tests = [1, 2, 10, 127, 128, 255, 256, 65535, 65536, 987654321];
+        $tests = [
+            1,
+            2,
+            10,
+            127,       /* 2^7 - 1 (max signed byte) */
+            128,       /* 2^7 */
+            255,       /* 2^8 - 1 (max unsigned byte) */
+            256,       /* 2^8 */
+            65535,     /* 2^16 - 1 (max unsigned 16-bit) */
+            65536,     /* 2^16 */
+            987654321,
+        ];
 
         $php = new PhpEncoder($configuration);
         $gmp = new GmpEncoder($configuration);
