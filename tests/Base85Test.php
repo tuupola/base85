@@ -450,6 +450,34 @@ class Base85Test extends TestCase
         $this->assertEquals($data, Base85Proxy::decodeInteger($encoded5));
     }
 
+    /**
+     * @dataProvider configurationProvider
+     */
+    public function testShouldEncodeAndDecodeEmptyString($configuration)
+    {
+        $data = "";
+
+        $php = new PhpEncoder($configuration);
+        $gmp = new GmpEncoder($configuration);
+        $base85 = new Base85($configuration);
+
+        $encoded = $php->encode($data);
+        $encoded2 = $gmp->encode($data);
+        $encoded4 = $base85->encode($data);
+
+        Base85Proxy::$options = $configuration;
+        $encoded5 = Base85Proxy::encode($data);
+
+        $this->assertEquals($encoded2, $encoded);
+        $this->assertEquals($encoded4, $encoded);
+        $this->assertEquals($encoded5, $encoded);
+
+        $this->assertEquals($data, $php->decode($encoded));
+        $this->assertEquals($data, $gmp->decode($encoded2));
+        $this->assertEquals($data, $base85->decode($encoded4));
+        $this->assertEquals($data, Base85Proxy::decode($encoded5));
+    }
+
     public function configurationProvider()
     {
         return [
