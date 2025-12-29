@@ -70,6 +70,11 @@ abstract class BaseEncoder
             $data = $matches[1];
         }
 
+        /* Handle pre PHP 8.2 str_split() behavior: https://3v4l.org/RCjgE */
+        if ($data === "") {
+            return [];
+        }
+
         if ($this->options["compress.zeroes"]) {
             $data = str_replace("z", "!!!!!", $data);
         }
