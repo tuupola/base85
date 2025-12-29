@@ -68,7 +68,7 @@ class PhpEncoder extends BaseEncoder
             $quotient = $uint32;
             foreach ([52200625, 614125, 7225, 85, 1] as $pow) {
                 $reminder = $quotient % $pow;
-                $quotient = (integer) ($quotient / $pow);
+                $quotient = (int) ($quotient / $pow);
                 $digits .= $this->options["characters"][$quotient];
                 $quotient = $reminder;
             }
