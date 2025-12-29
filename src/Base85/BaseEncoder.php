@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 /*
 
-Copyright (c) 2017-2021 Mika Tuupola
+Copyright (c) 2017-2025 Mika Tuupola
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -68,6 +68,11 @@ abstract class BaseEncoder
             $suffix = preg_quote($this->options["suffix"]);
             preg_match("/$prefix(.*)$suffix/", $data, $matches);
             $data = $matches[1];
+        }
+
+        /* Handle pre PHP 8.2 str_split() behavior: https://3v4l.org/RCjgE */
+        if ($data === "") {
+            return [];
         }
 
         if ($this->options["compress.zeroes"]) {

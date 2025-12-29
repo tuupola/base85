@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file, in reverse
 chronological order by release.
 
+## [2.1.1](https://github.com/tuupola/base85/compare/2.1.0...2.x) - unreleased
+
+### Fixed
+- Encoding an empty string with modern PHP and PHP older than 8.2 produced different outputs ([#28](https://github.com/tuupola/base85/issues/28), [#29](https://github.com/tuupola/base85/pull/29)).
+
 ## [2.1.0](https://github.com/tuupola/base85/compare/2.0.0...2.1.0) - 2021-08-02
 
 ### Fixed
