@@ -1,8 +1,8 @@
-# All your Base85
+# [WIP] All your Base85
 
 [![Latest Version](https://img.shields.io/packagist/v/tuupola/base85.svg?style=flat-square)](https://packagist.org/packages/tuupola/base85)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/tuupola/base85/tests.yml?branch=2.x&style=flat-square)](https://github.com/tuupola/base85/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/tuupola/base85/tests.yml?branch=3.x&style=flat-square)](https://github.com/tuupola/base85/actions)
 [![Coverage](https://img.shields.io/codecov/c/github/tuupola/base85.svg?style=flat-square)](https://codecov.io/github/tuupola/base85)
 
 ## Install
@@ -13,10 +13,10 @@ Install with [composer](https://getcomposer.org/).
 $ composer require tuupola/base85
 ```
 
-This branch requires PHP 7.1 or up. The older 1.x branch supports also PHP 5.6 and 7.0.
+This branch requires PHP 8.1 or up. The older `2.x` branch supports also PHP 7.1 or up.
 
 ``` bash
-$ composer require "tuupola/base85:^1.0"
+$ composer require "tuupola/base85:^2.0"
 ```
 
 ## Usage
