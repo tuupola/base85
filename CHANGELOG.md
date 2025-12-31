@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file, in reverse
 chronological order by release.
 
+## [3.0.0](https://github.com/tuupola/base85/compare/2.1.1...3.x) - unreleased
+
+### Changed
+- PHP 8.1 is now the minimum requirement ([#30](https://github.com/tuupola/base85/pull/30)).
+
 ## [2.1.1](https://github.com/tuupola/base85/compare/2.1.0...2.1.1) - 2025-12-29
 
 ### Fixed
