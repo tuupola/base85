@@ -110,6 +110,12 @@ abstract class BaseEncoder
             foreach ((array)unpack("C*", $value) as $char) {
                 $accumulator = $accumulator * 85 + strpos($this->options["characters"], chr($char));
             }
+            /* Five base85 characters can hold more than 32 bits. */
+            if ($accumulator > 0xFFFFFFFF) {
+                throw new InvalidArgumentException(
+                    "Data contains a group larger than 32 bits \"{$value}\""
+                );
+            }
             return pack("N", $accumulator);
         }, $digits);
 
