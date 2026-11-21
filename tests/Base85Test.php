@@ -285,6 +285,31 @@ class Base85Test extends TestCase
     /**
      * @dataProvider encoderProvider
      */
+    public function testShouldThrowExceptionOnDecodeOverflowingGroup($encoder)
+    {
+        /* s8W-! is the largest group, 0xFFFFFFFF. */
+        $ascii85 = new $encoder(["characters" => Base85::ASCII85, "prefix" => null, "suffix" => null]);
+        $this->assertEquals("\xff\xff\xff\xff", $ascii85->decode("s8W-!"));
+
+        foreach (["s8W-\"", "uuuuu", "!!!!!s8W-\"", "s8W-"] as $invalid) {
+            try {
+                $ascii85->decode($invalid);
+                $this->fail("Expected exception for {$invalid}");
+            } catch (InvalidArgumentException $exception) {
+                $this->assertStringContainsString("larger than 32 bits", $exception->getMessage());
+            }
+        }
+
+        $z85 = new $encoder(["characters" => Base85::Z85, "prefix" => null, "suffix" => null]);
+        $this->assertEquals("\xff\xff\xff\xff", $z85->decode("%nSc0"));
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("larger than 32 bits");
+        $z85->decode("%nSc1");
+    }
+
+    /**
+     * @dataProvider encoderProvider
+     */
     public function testShouldThrowExceptionOnDecodeInvalidDataWithCustomCharacterSet($encoder)
     {
         $this->expectException(InvalidArgumentException::class);
